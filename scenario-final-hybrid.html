@@ -26,6 +26,10 @@
         запросы, общается с клиентом через агента, быстро вносит правки и
         автоматически перепубликовывает обновления.
       </p>
+      <div class="actions">
+        <a class="button button-primary" href="./architecture.html">Архитектура</a>
+        <a class="button button-secondary" href="./economics.html">Экономика в рублях</a>
+      </div>
       <div class="badge-row">
         <span class="badge badge-good">Рекомендуемый сценарий</span>
         <span class="badge badge-good">Автопубликация встроена</span>
@@ -92,6 +96,17 @@
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="panel">
+      <h2>Ключевое инженерное решение</h2>
+      <p>
+        Центром системы должен быть не чат-агент сам по себе, а собственный
+        orchestration backend с жёсткой моделью состояний. Агентный интерфейс
+        нужен для общения, ресерча, synthesis и refinement, но публикация,
+        сборка, подписи, очереди, retry-логика и audit trail должны жить в
+        нормальном backend-контуре.
+      </p>
     </section>
 
     <section class="panel">

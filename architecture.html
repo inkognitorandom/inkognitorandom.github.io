@@ -27,6 +27,41 @@
       </p>
     </section>
 
+    <section class="panel">
+      <h2>Текстовая схема</h2>
+      <div class="callout">
+<pre><code>Intake / Agent UI
+        |
+        v
+Research -> Scoring -> Monetization Designer -> Policy Precheck
+        |                                      |
+        +------------------- approval ---------+
+                           |
+                           v
+                    Product Generator
+                           |
+                           v
+                       Build Service
+                           |
+                           v
+                        QA Service
+                           |
+                           v
+                 Submission Preparation
+                           |
+                           v
+                    Publication Service
+                           |
+                           v
+           Store APIs / Review Status / Release Events
+                           |
+                           v
+              Notifier + Analytics + Refinement Agent
+                           |
+                           +------> Republish loop</code></pre>
+      </div>
+    </section>
+
     <section class="panel three-grid">
       <article class="metric">
         <div class="metric-number">2</div>
@@ -51,44 +86,177 @@
         <article>
           <h3>1. Intake Agent</h3>
           <p>Принимает идею, запрос клиента или сигнал из ресерча. Формирует карточку проекта, фиксирует цели, ограничения, ownership mode и денежную модель.</p>
+          <p><strong>Реализация:</strong> Telegram-бот или web-console поверх backend API. Сам агент не должен хранить истинное состояние проекта, он лишь пишет события в system of record.</p>
         </article>
         <article>
           <h3>2. Research & Scoring</h3>
           <p>Ищет тренды, жалобы пользователей, keyword gaps, конкурентный ландшафт и сразу пишет контраргумент, почему идея может не взлететь.</p>
+          <p><strong>Реализация:</strong> отдельные worker-задачи с накоплением evidence в PostgreSQL и object storage. Лучше event-driven batch/async слой, а не бесконечно живой autonomous agent.</p>
         </article>
         <article>
           <h3>3. Monetization Designer</h3>
           <p>До сборки продукта формирует monetization thesis: какой рынок, какая денежная модель, где paywall или ads, что ломает retention и какие метрики станут критичными.</p>
+          <p><strong>Реализация:</strong> LLM-пайплайн на шаблонах плюс rule engine. Здесь нужна не “творческая магия”, а детерминированный checklist и scorecard, иначе модуль станет генератором красивых самообманов.</p>
         </article>
         <article>
           <h3>4. Product Generator</h3>
           <p>Делает PRD, экранную модель, backlog, текст для стора, стартовый дизайн и scaffolding кода.</p>
+          <p><strong>Реализация:</strong> шаблонная mobile-platform codebase плюс генерация конфигурации, модулей и контента. Это должен быть generator поверх общего ядра, а не хаотичное написание каждого приложения с нуля.</p>
         </article>
         <article>
           <h3>5. Build Service</h3>
           <p>Собирает приложение, package identifiers, signing, release-кандидаты, связку с репозиторием и CI.</p>
+          <p><strong>Реализация:</strong> GitHub Actions или self-hosted runners, секреты в vault, signing из изолированного контура. Это обычный release engineering, а не агентная задача.</p>
         </article>
         <article>
           <h3>6. QA Service</h3>
           <p>Прогоняет unit, integration, smoke и policy-precheck. Проверяет не только баги, но и признаки thin app / repetitive content.</p>
+          <p><strong>Реализация:</strong> автоматические тесты плюс rule-based policy linting. LLM можно использовать для drafting замечаний, но не как единственный источник verdict.</p>
         </article>
         <article>
           <h3>7. Submission Preparation</h3>
           <p>Готовит screenshots, privacy summary, metadata, review notes, changelog и PDF-досье по кандидату.</p>
+          <p><strong>Реализация:</strong> deterministic templates плюс генерация контента. Здесь же должен собираться единый dossier: что за приложение, зачем оно, как монетизируется, почему publish-ready.</p>
         </article>
         <article>
           <h3>8. Publication Service</h3>
           <p>Работает с App Store Connect и Google Play API, умеет создавать submissions, публиковать обновления и соблюдать режимы gate-публикации.</p>
+          <p><strong>Реализация:</strong> отдельный backend service с idempotent-командами, статусами и retry logic. Это самый чувствительный модуль, поэтому он должен жить отдельно от болтливого agent runtime.</p>
         </article>
         <article>
           <h3>9. Notifier</h3>
           <p>Шлёт события в Telegram, email и dashboard: submission-ready, submitted, rejected, approved, needs-refinement, below-threshold.</p>
+          <p><strong>Реализация:</strong> event subscribers от orchestration слоя. Это дёшево и очень важно: без нормального уведомления конвейер становится чёрным ящиком.</p>
         </article>
         <article>
           <h3>10. Refinement Agent</h3>
           <p>Принимает замечания от вас или клиентов, формализует change request, дорабатывает продукт, повторно тестирует и перепубликовывает.</p>
+          <p><strong>Реализация:</strong> агентный слой, который не пишет напрямую в прод, а работает через change requests, pull requests и повторный пайплайн сборки.</p>
         </article>
       </div>
+    </section>
+
+    <section class="panel">
+      <h2>Технологический стек</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Слой</th>
+            <th>Что брать</th>
+            <th>Почему</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Backend API</td>
+            <td>NestJS или FastAPI</td>
+            <td>Простой service-oriented backend с хорошей интеграционной моделью</td>
+          </tr>
+          <tr>
+            <td>Workflow orchestration</td>
+            <td>Temporal или аналогичная stateful workflow-система</td>
+            <td>Retries, long-running jobs, human gates, audit trail</td>
+          </tr>
+          <tr>
+            <td>Очереди и events</td>
+            <td>Postgres queue / Redis / message broker</td>
+            <td>Асинхронная обработка и развязка модулей</td>
+          </tr>
+          <tr>
+            <td>Хранилище</td>
+            <td>PostgreSQL + S3-compatible storage</td>
+            <td>System of record и артефакты</td>
+          </tr>
+          <tr>
+            <td>Mobile</td>
+            <td>React Native или Flutter</td>
+            <td>Быстрый delivery и единая codebase для MVP</td>
+          </tr>
+          <tr>
+            <td>CI/CD</td>
+            <td>GitHub Actions + self-hosted runners при росте</td>
+            <td>Нормальный baseline для release automation</td>
+          </tr>
+          <tr>
+            <td>Agent layer</td>
+            <td>OpenAI API и собственные prompts/workers</td>
+            <td>Контролируемая интеграция без жёсткой привязки к внешнему agent runtime</td>
+          </tr>
+          <tr>
+            <td>Notifier</td>
+            <td>Telegram Bot API + dashboard</td>
+            <td>Быстрый human-in-the-loop</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Нужен ли OpenClaw</h2>
+      <div class="list-grid">
+        <article class="callout">
+          <h3>Короткий ответ</h3>
+          <p>Для core architecture <strong>не нужен</strong>. Реализовать систему можно и лучше без него.</p>
+        </article>
+        <article class="callout">
+          <h3>Где он может пригодиться</h3>
+          <p>Как внешний agent gateway для Telegram/чат-интерфейса, личного ассистента операторов или экспериментального human interface.</p>
+        </article>
+        <article class="callout">
+          <h3>Почему не стоит делать его ядром</h3>
+          <p>OpenClaw по своей природе это agent/gateway runtime. А вам нужен надёжный production backend с workflow state, submissions, signing, audit trail и чёткими правами доступа.</p>
+        </article>
+      </div>
+      <p class="spacer-top">
+        Иными словами: <strong>OpenClaw может быть optional outer shell, но не должен быть центральной платформой</strong>.
+        Центральной платформой должен быть ваш backend orchestration слой. Это реалистичнее,
+        безопаснее и легче сопровождать.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Реалистичность</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Часть системы</th>
+            <th>Реалистичность</th>
+            <th>Комментарий</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Research + scoring</td>
+            <td>Высокая</td>
+            <td>Обычный LLM-assisted intelligence pipeline</td>
+          </tr>
+          <tr>
+            <td>Monetization gating до build</td>
+            <td>Высокая</td>
+            <td>Главное сделать rule-based scorecard, а не свободную болтовню модели</td>
+          </tr>
+          <tr>
+            <td>Code generation поверх общей mobile platform</td>
+            <td>Средне-высокая</td>
+            <td>Реально, если есть единое ядро и ограниченный product grammar</td>
+          </tr>
+          <tr>
+            <td>Автоматизированная публикация</td>
+            <td>Средняя</td>
+            <td>Технически реально, операционно чувствительно</td>
+          </tr>
+          <tr>
+            <td>Автоматическая перепубликация после правок</td>
+            <td>Средняя</td>
+            <td>Реально при жёсткой change-management модели</td>
+          </tr>
+          <tr>
+            <td>Полностью автономный “умный издатель” без гейтов</td>
+            <td>Низкая</td>
+            <td>Именно этот кусок и не нужен. Нужен управляемый, а не магический pipeline</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="panel">
