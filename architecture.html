@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Целевая архитектура v2</title>
+  <link rel="stylesheet" href="./site.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html">Razyeb Strategy</a>
+      <nav class="nav">
+        <a href="./index.html">Главная</a>
+        <a href="./economics.html">Экономика</a>
+        <a href="./scenario-final-hybrid.html">Финальный вариант</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow">Архитектура v2</p>
+      <h1>Управляемый конвейер от идеи до перепубликации</h1>
+      <p class="lede">
+        Публикация остаётся автоматизированной, но не хаотичной. Конвейер
+        работает как жизненный цикл продукта: intake, ресерч, скоринг, сборка,
+        QA, подготовка к стору, сабмит, review, метрики, refinement и повторный релиз.
+      </p>
+    </section>
+
+    <section class="panel three-grid">
+      <article class="metric">
+        <div class="metric-number">2</div>
+        <p><strong>Основных контура</strong></p>
+        <p>Собственный портфель и клиентские проекты работают на одном движке.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-number">9</div>
+        <p><strong>Ключевых модулей</strong></p>
+        <p>От исследования идей до notification и refinement loop.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-number">3</div>
+        <p><strong>Режима публикации</strong></p>
+        <p>Авто, approval-based и assisted publish через клиентский аккаунт.</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2>Модули платформы</h2>
+      <div class="list-grid">
+        <article>
+          <h3>1. Intake Agent</h3>
+          <p>Принимает идею, запрос клиента или сигнал из ресерча. Формирует карточку проекта, фиксирует цели, ограничения, ownership mode и денежную модель.</p>
+        </article>
+        <article>
+          <h3>2. Research & Scoring</h3>
+          <p>Ищет тренды, жалобы пользователей, keyword gaps, конкурентный ландшафт и сразу пишет контраргумент, почему идея может не взлететь.</p>
+        </article>
+        <article>
+          <h3>3. Product Generator</h3>
+          <p>Делает PRD, экранную модель, backlog, текст для стора, стартовый дизайн и scaffolding кода.</p>
+        </article>
+        <article>
+          <h3>4. Build Service</h3>
+          <p>Собирает приложение, package identifiers, signing, release-кандидаты, связку с репозиторием и CI.</p>
+        </article>
+        <article>
+          <h3>5. QA Service</h3>
+          <p>Прогоняет unit, integration, smoke и policy-precheck. Проверяет не только баги, но и признаки thin app / repetitive content.</p>
+        </article>
+        <article>
+          <h3>6. Submission Preparation</h3>
+          <p>Готовит screenshots, privacy summary, metadata, review notes, changelog и PDF-досье по кандидату.</p>
+        </article>
+        <article>
+          <h3>7. Publication Service</h3>
+          <p>Работает с App Store Connect и Google Play API, умеет создавать submissions, публиковать обновления и соблюдать режимы gate-публикации.</p>
+        </article>
+        <article>
+          <h3>8. Notifier</h3>
+          <p>Шлёт события в Telegram, email и dashboard: submission-ready, submitted, rejected, approved, needs-refinement, below-threshold.</p>
+        </article>
+        <article>
+          <h3>9. Refinement Agent</h3>
+          <p>Принимает замечания от вас или клиентов, формализует change request, дорабатывает продукт, повторно тестирует и перепубликовывает.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Ownership modes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Режим</th>
+            <th>Для кого</th>
+            <th>Чей store account</th>
+            <th>Кто получает деньги</th>
+            <th>Как публикуем</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>owned_by_us</code></td>
+            <td>Собственные продукты</td>
+            <td>Ваш</td>
+            <td>Вы</td>
+            <td>Auto-publish или approval-based</td>
+          </tr>
+          <tr>
+            <td><code>owned_by_client</code></td>
+            <td>Клиентские приложения</td>
+            <td>Клиента</td>
+            <td>Клиент</td>
+            <td>Assisted/automatic publish через клиентские доступы</td>
+          </tr>
+          <tr>
+            <td><code>managed_transitional</code></td>
+            <td>Исключение</td>
+            <td>Договорной</td>
+            <td>По договору</td>
+            <td>Только как временный режим</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Статусы pipeline</h2>
+      <div class="badge-row">
+        <span class="badge badge-good">idea-intake</span>
+        <span class="badge badge-good">research-complete</span>
+        <span class="badge badge-good">idea-approved</span>
+        <span class="badge badge-good">in-build</span>
+        <span class="badge badge-good">qa-passed</span>
+        <span class="badge badge-good">submission-ready</span>
+        <span class="badge badge-good">submitted</span>
+        <span class="badge badge-warn">rejected</span>
+        <span class="badge badge-good">approved</span>
+        <span class="badge badge-good">published</span>
+        <span class="badge badge-good">needs-refinement</span>
+        <span class="badge badge-good">republished</span>
+      </div>
+      <p>
+        Ключевой принцип: публикация это не финальная кнопка, а один из статусов
+        жизненного цикла. После релиза платформа собирает сигналы и может сама
+        инициировать refinement-цикл, если retention, conversion или review feedback
+        выходят за допустимые границы.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Три режима публикации</h2>
+      <div class="list-grid">
+        <article class="callout">
+          <h3>Auto-Publish Internal</h3>
+          <p>Для ваших приложений. Сабмит уходит автоматически после прохождения внутренних гейтов и policy scoring.</p>
+        </article>
+        <article class="callout">
+          <h3>Approval-Based Publish</h3>
+          <p>Для новых вертикалей, спорных кейсов и крупных обновлений. Notifier присылает карточку, после approve идёт submission.</p>
+        </article>
+        <article class="callout">
+          <h3>Client-Assisted Publish</h3>
+          <p>Для внешних клиентов. Публикация автоматизирована, но в store account клиента, с фиксированным audit trail.</p>
+        </article>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

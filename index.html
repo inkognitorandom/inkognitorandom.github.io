@@ -3,97 +3,151 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Razyeb Research</title>
-  <meta name="description" content="Исследование по идее автономного конвейера мобильных приложений: реализуемость, риски, архитектура, монетизация и ограничения для РФ.">
+  <title>Razyeb Strategy Report</title>
+  <meta name="description" content="Стратегический отчёт по продукту автоматизированной подготовки, публикации и развития мобильных приложений для собственных продуктов и клиентских заказов.">
   <link rel="stylesheet" href="./site.css">
 </head>
 <body>
-  <main class="shell">
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html">Razyeb Strategy</a>
+      <nav class="nav">
+        <a href="./architecture.html">Архитектура</a>
+        <a href="./economics.html">Экономика</a>
+        <a href="./scenario-final-hybrid.html">Финальный вариант</a>
+        <a href="./mobile-app-pipeline-feasibility.html">Исходное исследование</a>
+      </nav>
+    </header>
+
     <section class="hero">
-      <p class="eyebrow">Razyeb Research</p>
-      <h1>Автономный конвейер мобильных приложений</h1>
+      <p class="eyebrow">Стратегический отчёт</p>
+      <h1>Платформа для создания, публикации и развития мобильных приложений</h1>
       <p class="lede">
-        Исследование по реализуемости идеи, архитектурному контуру, policy-рискам,
-        экономике и практическому пути запуска.
+        Итоговая формулировка идеи: не безумная фабрика случайных приложений,
+        а управляемый AI-native конвейер, который умеет искать сильные идеи,
+        собирать приложения, готовить их к публикации, автоматически
+        перепубликовывать обновления и обслуживать как собственный портфель,
+        так и клиентские проекты.
       </p>
       <div class="actions">
-        <a class="button button-primary" href="./mobile-app-pipeline-feasibility.html">Открыть исследование</a>
-        <a class="button button-secondary" href="./mobile-app-pipeline-feasibility.pdf">Скачать PDF</a>
+        <a class="button button-primary" href="./scenario-final-hybrid.html">Открыть рекомендуемый вариант</a>
+        <a class="button button-secondary" href="./economics.html">Смотреть экономику в рублях</a>
       </div>
     </section>
 
     <section class="panel panel-grid">
       <article class="card">
-        <p class="card-label">Вердикт</p>
-        <h2>Не брать в лоб</h2>
+        <p class="card-label">Ключевой вывод</p>
+        <h2>Публикацию можно автоматизировать</h2>
         <p>
-          Полностью автономная фабрика множества отдельных приложений слишком
-          зависит от допущений, которые ломаются о anti-spam / anti-template
-          policy Apple и Google, distribution-risk и слабую предсказуемость
-          монетизации.
+          Но не как безусловный шаг. Нужен отдельный <strong>publication service</strong>
+          с режимами публикации, оповещениями, publish-gates и рефайнмент-циклом
+          после правок или замечаний от сторов.
         </p>
       </article>
       <article class="card">
-        <p class="card-label">Рекомендация</p>
-        <h2>Брать в адаптированном виде</h2>
+        <p class="card-label">Почему не просто B2C</p>
+        <h2>Нужен гибридный контур</h2>
         <p>
-          Жизнеспособная версия идеи это <strong>semi-autonomous internal product studio</strong>,
-          где AI ускоряет research, delivery и store ops assistance, а человек
-          принимает ключевые продуктовые и compliance-решения.
+          Собственные приложения дают upside и продуктовую экспертизу.
+          Клиентские заказы дают кэшфлоу и реальную боевую нагрузку на платформу.
+          Один и тот же движок работает и для внутренних, и для внешних проектов.
         </p>
       </article>
     </section>
 
     <section class="panel">
-      <h2>Что внутри исследования</h2>
+      <h2>Что рассмотрели</h2>
       <div class="list-grid">
-        <div>
-          <h3>Риски</h3>
-          <ul>
-            <li>anti-template и repetitive-content ограничения</li>
-            <li>ограничения на публикацию за клиентов</li>
-            <li>операционные риски post-release</li>
-            <li>ограничения по РФ, биллингу и выплатам</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Архитектура</h3>
-          <ul>
-            <li>research services и scoring</li>
-            <li>approval bot / human gate</li>
-            <li>product generation и codegen</li>
-            <li>build, QA, store ops и analytics</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Экономика</h3>
-          <ul>
-            <li>реалистичность подписок и рекламы</li>
-            <li>пороговые расходы на запуск</li>
-            <li>скрытые накладные расходы</li>
-            <li>когда B2B здоровее B2C</li>
-          </ul>
-        </div>
+        <article>
+          <h3><a href="./scenario-b2b-only.html">Вариант A. Только B2B</a></h3>
+          <p>Платформа делает приложения на заказ, публикация и перепубликация автоматизируются через клиентские аккаунты.</p>
+        </article>
+        <article>
+          <h3><a href="./scenario-owned-products.html">Вариант B. 1-3 собственных продукта</a></h3>
+          <p>Фокус на собственном портфеле, где конвейер помогает быстро выпускать и доращивать только ваши приложения.</p>
+        </article>
+        <article>
+          <h3><a href="./scenario-one-container.html">Вариант D. Один app-контейнер</a></h3>
+          <p>Один сильный контейнер-продукт вместо россыпи отдельных приложений, с вертикалями внутри и меньшим риском repetitive content.</p>
+        </article>
+        <article>
+          <h3><a href="./scenario-final-hybrid.html">Финальный вариант</a></h3>
+          <p>Гибрид: собственный портфель плюс внешние клиенты, общий конвейер, автоматизированная публикация и refinement loop.</p>
+        </article>
       </div>
+    </section>
+
+    <section class="panel">
+      <h2>Почему выбираем финальный вариант</h2>
+      <div class="badge-row">
+        <span class="badge badge-good">Один движок, два источника денег</span>
+        <span class="badge badge-good">Автопубликация встроена, но управляемо</span>
+        <span class="badge badge-good">Есть место для быстрых правок и перепубликации</span>
+      </div>
+      <p>
+        Только B2B слишком ограничивает upside. Только 1-3 своих продукта слишком
+        зависимы от distribution и времени до выручки. Один app-контейнер силён как
+        продуктовая гипотеза, но не закрывает внешний сервисный спрос. Гибридная
+        модель даёт лучший баланс между денежным потоком, технологическим развитием
+        платформы и шансом на собственный портфель с высокой капитализацией.
+      </p>
+    </section>
+
+    <section class="panel table-panel">
+      <h2>Сравнение сценариев</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Сценарий</th>
+            <th>Запуск</th>
+            <th>Операционка</th>
+            <th>Деньги</th>
+            <th>Вердикт</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Только B2B</td>
+            <td>Быстрее всех</td>
+            <td>Средняя</td>
+            <td>Ранний кэшфлоу</td>
+            <td>Хорош как старт, слабее как долгий продукт</td>
+          </tr>
+          <tr>
+            <td>1-3 своих продукта</td>
+            <td>Средний срок</td>
+            <td>Высокая зависимость от distribution</td>
+            <td>Самый высокий upside, но медленный cash-in</td>
+            <td>Хорош как портфель, слаб как единственный путь</td>
+          </tr>
+          <tr>
+            <td>Один app-контейнер</td>
+            <td>Сложнее продуктово</td>
+            <td>Сильнее удержание и ниже store-noise</td>
+            <td>Может быть мощным B2C-ядром</td>
+            <td>Силен как продуктовая ветка, не как полный бизнес</td>
+          </tr>
+          <tr>
+            <td>Финальный гибрид</td>
+            <td>Сложнее запуск</td>
+            <td>Самый устойчивый контур</td>
+            <td>B2B даёт кэшфлоу, B2C даёт upside</td>
+            <td><strong>Рекомендуемый вариант</strong></td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="panel">
       <h2>Артефакты</h2>
       <div class="links">
-        <a href="./mobile-app-pipeline-feasibility.html">HTML-версия исследования</a>
-        <a href="./mobile-app-pipeline-feasibility.pdf">PDF-версия исследования</a>
-        <a href="./mobile-app-pipeline-feasibility.md">Markdown-исходник</a>
+        <a href="./architecture.html">Целевая архитектура v2</a>
+        <a href="./economics.html">Экономика и допущения в рублях</a>
+        <a href="./mobile-app-pipeline-feasibility.html">Первая полная исследовательская версия</a>
+        <a href="./mobile-app-pipeline-feasibility.pdf">PDF первой версии</a>
       </div>
     </section>
-
-    <section class="panel note">
-      <h2>GitHub Pages</h2>
-      <p>
-        Папка <code>docs/</code> уже подготовлена как source для GitHub Pages.
-        Достаточно положить проект в git-репозиторий и включить Pages с source:
-        <code>Deploy from a branch</code> -> ветка <code>main</code> -> папка <code>/docs</code>.
-      </p>
-    </section>
-  </main>
+  </div>
 </body>
 </html>
