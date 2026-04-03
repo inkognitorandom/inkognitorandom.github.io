@@ -419,6 +419,22 @@ code {
   font-weight: 700;
 }
 
+.diagram-link-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.diagram-link-label {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-align: center;
+}
+
 .diagram-gate {
   min-height: 42px;
   padding: 10px 16px;

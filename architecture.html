@@ -35,7 +35,10 @@
           <div class="diagram-box stage-intake">Intake / Agent UI</div>
         </div>
 
-        <div class="diagram-link">↓</div>
+        <div class="diagram-link-wrap">
+          <div class="diagram-link">↓</div>
+          <div class="diagram-link-label">HTTP API + command creation</div>
+        </div>
 
         <div class="diagram-stage">
           <div class="diagram-stage-title">2. Research and Decision</div>
@@ -52,16 +55,25 @@
           </div>
         </div>
 
-        <div class="diagram-link">↓</div>
+        <div class="diagram-link-wrap">
+          <div class="diagram-link">↓</div>
+          <div class="diagram-link-label">workflow signal + persisted state</div>
+        </div>
         <div class="diagram-gate">Approval Gate / Build Permission</div>
-        <div class="diagram-link">↓</div>
+        <div class="diagram-link-wrap">
+          <div class="diagram-link">↓</div>
+          <div class="diagram-link-label">approved command -> generator job</div>
+        </div>
 
         <div class="diagram-stage">
           <div class="diagram-stage-title">3. Product Generation</div>
           <div class="diagram-box stage-product">Product Generator</div>
         </div>
 
-        <div class="diagram-link">↓</div>
+        <div class="diagram-link-wrap">
+          <div class="diagram-link">↓</div>
+          <div class="diagram-link-label">repo update + build workflow</div>
+        </div>
 
         <div class="diagram-stage">
           <div class="diagram-stage-title">4. Delivery Pipeline</div>
@@ -77,7 +89,10 @@
           </div>
         </div>
 
-        <div class="diagram-link">↓</div>
+        <div class="diagram-link-wrap">
+          <div class="diagram-link">↓</div>
+          <div class="diagram-link-label">submission package + publish command</div>
+        </div>
 
         <div class="diagram-stage">
           <div class="diagram-stage-title">5. Store Release</div>
@@ -93,7 +108,10 @@
           </div>
         </div>
 
-        <div class="diagram-link">↓</div>
+        <div class="diagram-link-wrap">
+          <div class="diagram-link">↓</div>
+          <div class="diagram-link-label">review events + analytics signals</div>
+        </div>
 
         <div class="diagram-stage">
           <div class="diagram-stage-title">6. Post-Release Loop</div>
@@ -104,6 +122,112 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="panel">
+      <h2>Контракты взаимодействия</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Откуда</th>
+            <th>Куда</th>
+            <th>Чем общаются</th>
+            <th>Что передают</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Intake / Agent UI</td>
+            <td>Backend API / Workflow Engine</td>
+            <td>HTTP</td>
+            <td>Команды `create_project`, `approve_idea`, `request_revision`, `publish_now`</td>
+          </tr>
+          <tr>
+            <td>Workflow Engine</td>
+            <td>Research / Scoring / Monetization / Policy</td>
+            <td>Queue jobs или activities</td>
+            <td>Project id, hypothesis, evidence tasks, scoring tasks</td>
+          </tr>
+          <tr>
+            <td>Research</td>
+            <td>Scoring</td>
+            <td>DB record + event</td>
+            <td>Evidence pack, competitor map, trend summary</td>
+          </tr>
+          <tr>
+            <td>Scoring</td>
+            <td>Monetization Designer</td>
+            <td>DB record + event</td>
+            <td>Decision context, segment, viability signals</td>
+          </tr>
+          <tr>
+            <td>Monetization Designer</td>
+            <td>Policy Precheck</td>
+            <td>DB record + event</td>
+            <td>Monetization thesis, retention risk, market assumptions</td>
+          </tr>
+          <tr>
+            <td>Workflow Engine</td>
+            <td>Product Generator</td>
+            <td>Queue / workflow activity</td>
+            <td>Approved spec, PRD, monetization mode, ownership mode</td>
+          </tr>
+          <tr>
+            <td>Product Generator</td>
+            <td>Repo / Build Service</td>
+            <td>Git push / CI trigger / webhook</td>
+            <td>Code changes, config, assets, release target</td>
+          </tr>
+          <tr>
+            <td>Build Service</td>
+            <td>QA Service</td>
+            <td>Artifact storage + event</td>
+            <td>Build artifacts, test manifest, release candidate id</td>
+          </tr>
+          <tr>
+            <td>QA Service</td>
+            <td>Submission Preparation</td>
+            <td>DB status + event</td>
+            <td>Pass/fail verdict, test report, compliance notes</td>
+          </tr>
+          <tr>
+            <td>Submission Preparation</td>
+            <td>Publication Service</td>
+            <td>HTTP internal API / queue</td>
+            <td>Metadata, screenshots, notes, privacy forms, dossier id</td>
+          </tr>
+          <tr>
+            <td>Publication Service</td>
+            <td>Store APIs</td>
+            <td>External HTTPS APIs</td>
+            <td>Submission payloads, updates, rollout commands</td>
+          </tr>
+          <tr>
+            <td>Store APIs / Review</td>
+            <td>Publication Service</td>
+            <td>Polling scheduler + webhook where available</td>
+            <td>Status changes, rejection reasons, review outcomes</td>
+          </tr>
+          <tr>
+            <td>Publication / Analytics</td>
+            <td>Notifier</td>
+            <td>Event bus</td>
+            <td>Submitted, rejected, approved, metric alerts</td>
+          </tr>
+          <tr>
+            <td>Notifier / Client feedback</td>
+            <td>Refinement Agent</td>
+            <td>HTTP command + queue</td>
+            <td>Change request, issue summary, enhancement brief</td>
+          </tr>
+          <tr>
+            <td>Refinement Agent</td>
+            <td>Product Generator / Build</td>
+            <td>PR creation + workflow restart</td>
+            <td>Patch, revised PRD, change set, republish command</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="panel three-grid">
@@ -181,6 +305,94 @@
     </section>
 
     <section class="panel">
+      <h2>Что здесь агент, а что обычный сервис</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Модуль</th>
+            <th>Тип</th>
+            <th>Как запускать</th>
+            <th>Как общается</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Intake / Agent UI</td>
+            <td>Агентный интерфейс + тонкий backend</td>
+            <td>HTTP service + bot webhook</td>
+            <td>HTTP в orchestration API</td>
+          </tr>
+          <tr>
+            <td>Research</td>
+            <td>Агентный worker</td>
+            <td>Асинхронные jobs по queue/scheduler</td>
+            <td>Queue + DB</td>
+          </tr>
+          <tr>
+            <td>Scoring</td>
+            <td>Кодовый сервис</td>
+            <td>Worker или workflow activity</td>
+            <td>DB + event</td>
+          </tr>
+          <tr>
+            <td>Monetization Designer</td>
+            <td>Гибрид: агент + rule engine</td>
+            <td>Асинхронный worker</td>
+            <td>Queue + DB</td>
+          </tr>
+          <tr>
+            <td>Policy Precheck</td>
+            <td>Кодовый сервис с LLM-assist</td>
+            <td>Workflow activity</td>
+            <td>DB + HTTP internal</td>
+          </tr>
+          <tr>
+            <td>Product Generator</td>
+            <td>Гибрид</td>
+            <td>Worker + repo automation</td>
+            <td>Queue + git/CI webhook</td>
+          </tr>
+          <tr>
+            <td>Build Service</td>
+            <td>Обычный кодовый сервис</td>
+            <td>CI runners</td>
+            <td>Webhook + artifact storage</td>
+          </tr>
+          <tr>
+            <td>QA Service</td>
+            <td>Обычный кодовый сервис</td>
+            <td>CI jobs + scheduled checks</td>
+            <td>Artifacts + DB + events</td>
+          </tr>
+          <tr>
+            <td>Submission Preparation</td>
+            <td>Кодовый сервис с генерацией</td>
+            <td>Worker</td>
+            <td>DB + object storage + internal HTTP</td>
+          </tr>
+          <tr>
+            <td>Publication Service</td>
+            <td>Критический кодовый сервис</td>
+            <td>Always-on API + scheduled polling</td>
+            <td>HTTPS APIs + DB + event bus</td>
+          </tr>
+          <tr>
+            <td>Notifier</td>
+            <td>Обычный subscriber-service</td>
+            <td>Event consumers + bot webhook</td>
+            <td>Event bus + Telegram API + email API</td>
+          </tr>
+          <tr>
+            <td>Refinement Agent</td>
+            <td>Агентный worker</td>
+            <td>Queue-triggered + human feedback</td>
+            <td>Queue + git PR + workflow restart</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
       <h2>Технологический стек</h2>
       <table>
         <thead>
@@ -233,6 +445,78 @@
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="panel">
+      <h2>Schedulers, cron, broker, HTTP или gRPC</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Задача</th>
+            <th>Рекомендуемый механизм</th>
+            <th>Почему</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Долгие бизнес-процессы</td>
+            <td>Workflow engine</td>
+            <td>Нужны retries, timeouts, human gates, history</td>
+          </tr>
+          <tr>
+            <td>Фоновые тяжёлые задачи</td>
+            <td>Queue / broker</td>
+            <td>Research, generation, dossier, screenshots, analytics jobs</td>
+          </tr>
+          <tr>
+            <td>Периодические проверки статусов</td>
+            <td>Scheduler / cron</td>
+            <td>Polling review status, retry stuck jobs, daily analytics rollups</td>
+          </tr>
+          <tr>
+            <td>Команды из UI и админки</td>
+            <td>HTTP</td>
+            <td>Просто, прозрачно, достаточно для MVP</td>
+          </tr>
+          <tr>
+            <td>Синхронные внутренние вызовы</td>
+            <td>HTTP internal API</td>
+            <td>gRPC не нужен на старте, добавит сложности без большой выгоды</td>
+          </tr>
+          <tr>
+            <td>Реакция на события</td>
+            <td>Event bus</td>
+            <td>Notifier, analytics, refinement triggers не должны висеть на прямых вызовах</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="spacer-top">
+        Практический вывод: <strong>для MVP не нужен zoo из протоколов</strong>.
+        Достаточно связки <code>HTTP + workflow engine + queue + scheduler</code>.
+        gRPC имеет смысл только если система вырастет в большой внутренний platform mesh.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Нужен ли Kubernetes</h2>
+      <div class="list-grid">
+        <article class="callout">
+          <h3>Для MVP</h3>
+          <p><strong>Нет, не нужен.</strong> Для первого живого контура достаточно Docker Compose или нескольких VM/instances с managed PostgreSQL и object storage.</p>
+        </article>
+        <article class="callout">
+          <h3>Почему не нужен сразу</h3>
+          <p>Kubernetes добавит ops-слой, сетевую сложность, secrets/config overhead и потребует больше DevOps-времени, чем принесёт пользы на первом этапе.</p>
+        </article>
+        <article class="callout">
+          <h3>Когда переходить</h3>
+          <p>Когда появятся десятки параллельных jobs, несколько окружений, self-hosted runners, отдельные worker pools и реальная необходимость в autoscaling и изоляции.</p>
+        </article>
+      </div>
+      <p class="spacer-top">
+        Рекомендуемая стратегия: <strong>start simple, then containerize deeper</strong>.
+        MVP поднимать без Kubernetes, а архитектуру строить так, чтобы миграция в него позднее была возможна без переписывания доменной логики.
+      </p>
     </section>
 
     <section class="panel">
