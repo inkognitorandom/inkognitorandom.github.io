@@ -8,6 +8,8 @@
   --line: rgba(77, 59, 39, 0.16);
   --accent: #0b6a62;
   --accent-2: #9e4f1d;
+  --accent-3: #1548b7;
+  --accent-4: #8a145c;
   --good: #295d38;
   --warn: #9a4a1a;
   --soft-good: rgba(41, 93, 56, 0.12);
@@ -305,14 +307,31 @@ code {
 }
 
 .diagram {
-  padding: 8px 0;
-}
-
-.diagram-col {
+  padding: 4px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+}
+
+.diagram-stage {
+  width: 100%;
+  max-width: 980px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(32, 27, 22, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 250, 242, 0.92));
+  box-shadow: 0 16px 40px rgba(47, 33, 14, 0.08);
+}
+
+.diagram-stage-title {
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .diagram-row {
@@ -332,45 +351,92 @@ code {
 }
 
 .diagram-box {
-  width: min(780px, 100%);
+  width: min(840px, 100%);
   padding: 16px 18px;
   text-align: center;
   border-radius: 16px;
-  border: 1px solid var(--line);
-  background: var(--paper-solid);
-  box-shadow: var(--shadow);
+  border: 2px solid transparent;
+  background: #fffdf8;
+  box-shadow: 0 10px 24px rgba(47, 33, 14, 0.10);
   font-size: 16px;
   line-height: 1.4;
   font-weight: 700;
 }
 
-.diagram-box.small {
-  width: 100%;
-  font-size: 15px;
-  font-weight: 600;
+.stage-intake {
+  border-color: rgba(21, 72, 183, 0.34);
+  background: linear-gradient(180deg, rgba(21, 72, 183, 0.08), rgba(21, 72, 183, 0.02));
 }
 
-.diagram-box.accent {
-  background: rgba(11, 106, 98, 0.08);
+.stage-research {
+  border-color: rgba(11, 106, 98, 0.34);
+  background: linear-gradient(180deg, rgba(11, 106, 98, 0.10), rgba(11, 106, 98, 0.02));
+}
+
+.stage-money {
+  border-color: rgba(138, 20, 92, 0.30);
+  background: linear-gradient(180deg, rgba(138, 20, 92, 0.10), rgba(138, 20, 92, 0.02));
+}
+
+.stage-policy {
+  border-color: rgba(158, 79, 29, 0.34);
+  background: linear-gradient(180deg, rgba(158, 79, 29, 0.10), rgba(158, 79, 29, 0.02));
+}
+
+.stage-product {
+  border-color: rgba(21, 72, 183, 0.28);
+  background: linear-gradient(180deg, rgba(21, 72, 183, 0.07), rgba(21, 72, 183, 0.02));
+}
+
+.stage-delivery {
   border-color: rgba(11, 106, 98, 0.28);
+  background: linear-gradient(180deg, rgba(11, 106, 98, 0.08), rgba(11, 106, 98, 0.02));
 }
 
-.diagram-box.loop {
-  background: rgba(158, 79, 29, 0.08);
-  border-color: rgba(158, 79, 29, 0.24);
+.stage-publication {
+  border-color: rgba(158, 79, 29, 0.36);
+  background: linear-gradient(180deg, rgba(158, 79, 29, 0.12), rgba(158, 79, 29, 0.03));
 }
 
-.diagram-arrow,
-.diagram-merge {
-  color: var(--muted);
-  font-size: 18px;
+.stage-external {
+  border-color: rgba(21, 72, 183, 0.26);
+  background: linear-gradient(180deg, rgba(21, 72, 183, 0.08), rgba(21, 72, 183, 0.02));
+}
+
+.stage-observe {
+  border-color: rgba(138, 20, 92, 0.26);
+  background: linear-gradient(180deg, rgba(138, 20, 92, 0.08), rgba(138, 20, 92, 0.02));
+}
+
+.stage-loop {
+  border-color: rgba(11, 106, 98, 0.36);
+  background: linear-gradient(180deg, rgba(11, 106, 98, 0.12), rgba(11, 106, 98, 0.03));
+}
+
+.diagram-link {
+  color: var(--accent-2);
+  font-size: 26px;
   font-weight: 700;
 }
 
-.diagram-merge {
-  font-size: 14px;
+.diagram-gate {
+  min-height: 42px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 2px dashed rgba(31, 27, 22, 0.18);
+  background: rgba(255, 251, 243, 0.88);
+  color: var(--muted);
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.diagram-caption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .muted {

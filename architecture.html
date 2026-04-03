@@ -30,33 +30,78 @@
     <section class="panel">
       <h2>Схема конвейера</h2>
       <div class="diagram">
-        <div class="diagram-col">
-          <div class="diagram-box">Intake / Agent UI</div>
-          <div class="diagram-arrow">↓</div>
-          <div class="diagram-row">
-            <div class="diagram-box small">Research</div>
-            <div class="diagram-box small">Scoring</div>
-            <div class="diagram-box small">Monetization Designer</div>
-            <div class="diagram-box small">Policy Precheck</div>
+        <div class="diagram-stage">
+          <div class="diagram-stage-title">1. Intake</div>
+          <div class="diagram-box stage-intake">Intake / Agent UI</div>
+        </div>
+
+        <div class="diagram-link">↓</div>
+
+        <div class="diagram-stage">
+          <div class="diagram-stage-title">2. Research and Decision</div>
+          <div class="diagram-row four">
+            <div class="diagram-box stage-research">Research</div>
+            <div class="diagram-box stage-research">Scoring</div>
+            <div class="diagram-box stage-money">Monetization Designer</div>
+            <div class="diagram-box stage-policy">Policy Precheck</div>
           </div>
-          <div class="diagram-merge">approval gate</div>
-          <div class="diagram-arrow">↓</div>
-          <div class="diagram-box">Product Generator</div>
-          <div class="diagram-arrow">↓</div>
+          <div class="diagram-caption">
+            Эти четыре модуля работают как decision chain: сначала собирают evidence,
+            потом оценивают силу идеи, проверяют денежную модель и только после этого
+            пропускают идею дальше.
+          </div>
+        </div>
+
+        <div class="diagram-link">↓</div>
+        <div class="diagram-gate">Approval Gate / Build Permission</div>
+        <div class="diagram-link">↓</div>
+
+        <div class="diagram-stage">
+          <div class="diagram-stage-title">3. Product Generation</div>
+          <div class="diagram-box stage-product">Product Generator</div>
+        </div>
+
+        <div class="diagram-link">↓</div>
+
+        <div class="diagram-stage">
+          <div class="diagram-stage-title">4. Delivery Pipeline</div>
           <div class="diagram-row three">
-            <div class="diagram-box small">Build Service</div>
-            <div class="diagram-box small">QA Service</div>
-            <div class="diagram-box small">Submission Preparation</div>
+            <div class="diagram-box stage-delivery">Build Service</div>
+            <div class="diagram-box stage-delivery">QA Service</div>
+            <div class="diagram-box stage-delivery">Submission Preparation</div>
           </div>
-          <div class="diagram-arrow">↓</div>
-          <div class="diagram-box accent">Publication Service</div>
-          <div class="diagram-arrow">↓</div>
+          <div class="diagram-caption">
+            Это не параллельные независимые модули, а производственная цепочка:
+            build собирает release-кандидат, QA его валидирует, submission preparation
+            оформляет publish-ready пакет для стора.
+          </div>
+        </div>
+
+        <div class="diagram-link">↓</div>
+
+        <div class="diagram-stage">
+          <div class="diagram-stage-title">5. Store Release</div>
+          <div class="diagram-box stage-publication">Publication Service</div>
           <div class="diagram-row two">
-            <div class="diagram-box small">Store APIs / Review</div>
-            <div class="diagram-box small">Notifier / Analytics</div>
+            <div class="diagram-box stage-external">Store APIs / Review</div>
+            <div class="diagram-box stage-observe">Notifier / Analytics</div>
           </div>
-          <div class="diagram-arrow">↓</div>
-          <div class="diagram-box loop">Refinement Agent / Republish Loop</div>
+          <div class="diagram-caption">
+            Publication Service общается со сторами и получает статусы review,
+            а notifier и analytics получают события о публикации, отклонениях,
+            метриках продукта и сигналах на доработку.
+          </div>
+        </div>
+
+        <div class="diagram-link">↓</div>
+
+        <div class="diagram-stage">
+          <div class="diagram-stage-title">6. Post-Release Loop</div>
+          <div class="diagram-box stage-loop">Refinement Agent / Republish Loop</div>
+          <div class="diagram-caption">
+            Любая значимая правка возвращает продукт обратно в delivery pipeline:
+            build, QA, submission package и повторная публикация.
+          </div>
         </div>
       </div>
     </section>
