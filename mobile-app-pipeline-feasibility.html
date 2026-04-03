@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Исследование: автономный конвейер мобильных приложений</title>
+  <style>
+    :root {
+      --bg: #f6f2e8;
+      --paper: #fffdf8;
+      --ink: #1f1c18;
+      --muted: #60584d;
+      --line: #d7cbb8;
+      --accent: #0f6b5f;
+      --warn: #8a3d10;
+      --good: #215b34;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(15, 107, 95, 0.10), transparent 24rem),
+        radial-gradient(circle at top right, rgba(138, 61, 16, 0.10), transparent 20rem),
+        linear-gradient(180deg, #f4efe4 0%, #ece4d5 100%);
+      color: var(--ink);
+      font-family: "Georgia", "Times New Roman", serif;
+      line-height: 1.55;
+    }
+
+    .page {
+      width: min(980px, calc(100vw - 48px));
+      margin: 32px auto 48px;
+      background: var(--paper);
+      border: 1px solid rgba(122, 100, 76, 0.22);
+      box-shadow: 0 24px 80px rgba(39, 30, 15, 0.10);
+      padding: 56px 64px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0 0 16px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 34px;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-top: 36px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-top: 24px;
+    }
+
+    p {
+      margin: 0 0 14px;
+      font-size: 16px;
+    }
+
+    ul, ol {
+      margin: 0 0 16px 22px;
+      padding: 0;
+    }
+
+    li {
+      margin: 0 0 8px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .summary {
+      background: #f0ebe0;
+      border-left: 5px solid var(--accent);
+      padding: 18px 20px;
+      margin: 24px 0 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 18px 0 24px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      padding: 16px 18px;
+      background: #fffaf1;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      background: #ebe3d3;
+      color: var(--muted);
+    }
+
+    .bad {
+      color: var(--warn);
+      font-weight: 700;
+    }
+
+    .good {
+      color: var(--good);
+      font-weight: 700;
+    }
+
+    .sources li {
+      word-break: break-word;
+    }
+
+    a {
+      color: #0d4f91;
+      text-decoration: none;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: auto;
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+        padding: 24px 28px;
+      }
+
+      a {
+        color: inherit;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Исследование: автономный конвейер мобильных приложений</h1>
+    <p class="meta">Дата: 2026-04-03</p>
+
+    <section class="summary">
+      <p><strong>Вывод:</strong> идею в лоб брать не стоит. Полностью автономная фабрика отдельных мобильных приложений конфликтует с policy Apple и Google, плохо контролируется по качеству и имеет слабую предсказуемость по экономике.</p>
+      <p><strong>Что стоит брать:</strong> semi-autonomous internal product studio, где AI автоматизирует research, PRD, кодогенерацию, QA и store ops assistance, а человек держит product, legal и submission-gates.</p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <div class="tag">No-Go</div>
+        <h3>Полностью автономная app factory</h3>
+        <ul>
+          <li>высокий риск spam / repetitive content;</li>
+          <li>массовые клоны плохо совпадают с правилами сторов;</li>
+          <li>экономика подписок и рекламы без сильного продукта слаба;</li>
+          <li>с РФ-контуром есть дополнительные ограничения по биллингу и операционке.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <div class="tag">Go</div>
+        <h3>Semi-autonomous product studio</h3>
+        <ul>
+          <li>1-3 собственных продукта вместо десятков шаблонных;</li>
+          <li>human approval на идее, позиционировании и публикации;</li>
+          <li>AI как multiplier, а не как автономный издатель;</li>
+          <li>фокус на глобальные рынки, а не на монетизацию внутри РФ.</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2>Почему исходная идея опасна</h2>
+    <h3>1. Store policy против фабрики однотипных приложений</h3>
+    <p>Apple в App Review Guidelines одновременно требует meaningful functionality и отдельно ограничивает template/app-generation services. В guideline <strong>4.2.6</strong> прямо сказано, что приложения из commercialized template или app generation service будут отклоняться, если подаются не в корректной модели; также Apple предлагает вариант single binary / picker model вместо россыпи похожих приложений.</p>
+    <p>Google Play в Developer Program Policy запрещает repetitive or low-quality apps и отдельно пишет, что приложения не должны merely provide the same experience as other apps already on Google Play. Если приложений много и они малы по объему контента, Google рекомендует агрегировать контент в одном приложении.</p>
+
+    <h3>2. Автопубликация для клиентов ограничена</h3>
+    <p>Google Play Developer API технически позволяет автоматизировать операции публикации, но в API Usage Instructions отдельно сказано: нельзя позволять третьим лицам использовать API для публикации на ваш аккаунт и нельзя использовать API как сервис публикации/обновления приложений в Google Play от имени других.</p>
+    <p>Apple App Store Connect API тоже автоматизирует workflow, но сама review-модель остается курируемой, а policy на template-like delivery никуда не исчезает.</p>
+
+    <h3>3. Автономный ресерч не равен product-market fit</h3>
+    <p>AI может ускорить поиск идей и synthesis, но не отменяет product judgment. Конвейер способен находить шумные темы и слабые utility-ниши, которые выглядят перспективно по текстовым сигналам, но не выдерживают retention, willingness to pay или paid acquisition economics.</p>
+
+    <h2>Что реально автоматизировать</h2>
+    <ul>
+      <li>сбор трендов, отзывов и конкурентного ландшафта;</li>
+      <li>idea scoring и evidence pack;</li>
+      <li>approval flow в Telegram-боте или web-console;</li>
+      <li>генерацию PRD, backlog, user flows, store copy и части дизайна;</li>
+      <li>code scaffolding поверх общей mobile platform;</li>
+      <li>CI/CD, QA, screenshots, часть store metadata;</li>
+      <li>post-release analytics, ASO hypotheses, paywall/ad experiments.</li>
+    </ul>
+
+    <h2>Рекомендуемая архитектура</h2>
+    <h3>Контуры системы</h3>
+    <ol>
+      <li><strong>Opportunity Intelligence:</strong> trend-crawler, review-miner, keyword-intel, idea-scorer, evidence-store.</li>
+      <li><strong>Human Approval:</strong> Telegram-бот / web-console с audit trail.</li>
+      <li><strong>Product Generation:</strong> PRD, backlog, UI system, codegen.</li>
+      <li><strong>Build &amp; QA:</strong> CI, automated tests, device checks, policy checklists.</li>
+      <li><strong>Store Ops:</strong> app records, metadata, screenshots, privacy labels, release notes, staged rollout.</li>
+      <li><strong>Growth &amp; Monetization:</strong> analytics, paywalls, ad mediation, ASO, retention loops.</li>
+    </ol>
+
+    <h3>Как оркестрировать</h3>
+    <p>Нужен не один giant-agent, а event-driven orchestration: PostgreSQL для state, object storage для артефактов, очередь задач и workflow engine уровня Temporal или аналогичного подхода. Причина простая: retries, checkpoints, audit log, стоимость LLM-вызовов и управляемость.</p>
+
+    <h3>Где AI уместен, а где нет</h3>
+    <p><span class="good">Уместен:</span> research, synthesis, copywriting, scaffolding, test generation, QA assistance, store asset drafting.</p>
+    <p><span class="bad">Не должен быть единственным решателем:</span> финальный product selection, legal/compliance, privacy declarations, age ratings, store submission, crisis-response после rejection.</p>
+
+    <h2>Какой путь брать</h2>
+    <div class="grid">
+      <section class="card">
+        <h3>Вариант A: автономная app factory</h3>
+        <p><strong>Вердикт:</strong> <span class="bad">не рекомендую</span>.</p>
+        <p>Максимум автоматизации, но худшее сочетание policy risk, качества и экономики.</p>
+      </section>
+      <section class="card">
+        <h3>Вариант B: internal product studio</h3>
+        <p><strong>Вердикт:</strong> <span class="good">рекомендую как старт</span>.</p>
+        <p>1-3 собственных продукта, сильный human gate, автоматизация delivery-контуров.</p>
+      </section>
+      <section class="card">
+        <h3>Вариант C: B2B concierge</h3>
+        <p><strong>Вердикт:</strong> <span class="good">второй этап</span>.</p>
+        <p>Можно быстрее выйти в выручку, но публикацию за клиентов нужно строить очень аккуратно.</p>
+      </section>
+      <section class="card">
+        <h3>Вариант D: один app-контейнер</h3>
+        <p><strong>Вердикт:</strong> <span class="good">сильная альтернатива</span>.</p>
+        <p>Вместо россыпи похожих приложений один app с вертикалями, mini-products и dynamic content packs.</p>
+      </section>
+    </div>
+
+    <h2>Сложность и сроки</h2>
+    <p><strong>MVP internal studio:</strong> высокая, но реализуемая сложность. Реалистично 8-14 недель до первого технического MVP при сильной команде.</p>
+    <p><strong>Полный автономный конвейер:</strong> очень высокая сложность. Реалистично 6-12+ месяцев до системы, которой можно доверять бренд, релизы и деньги.</p>
+
+    <h2>Накладные расходы</h2>
+    <ul>
+      <li>Apple Developer Program: 99 USD в год.</li>
+      <li>Google Play developer account: 25 USD one-time.</li>
+      <li>LLM inference, search/data providers, CI/CD, storage, analytics.</li>
+      <li>device testing, crash analytics, локализация, ASO.</li>
+      <li>post-release operations: SDK updates, support, appeals, price experiments, retention work.</li>
+    </ul>
+    <p>Самая недооцененная статья расходов почти всегда не сборка, а сопровождение после релиза. Именно она ломает мечту о "20 приложениях без людей".</p>
+
+    <h2>Монетизация</h2>
+    <h3>Подписки</h3>
+    <p>Работают только там, где есть recurring value и удержание. Без реальной полезности paywall не спасает. Apple берет 30% или 15% в льготных режимах; Google Play для auto-renewing subscriptions указывает 15% service fee, а для small business tier 15% на первые 1 млн USD в год.</p>
+
+    <h3>Реклама</h3>
+    <p>Требует масштаба трафика, ухудшает UX и плохо монетизирует маленькие utility apps. Реклама не лечит слабый retention и почти никогда не делает "случайные конвейерные приложения" хорошим бизнесом.</p>
+
+    <h3>B2B</h3>
+    <p>На старте выглядит здоровее B2C-конвейера: деньги приходят раньше, зависимость от стора ниже, а автоматизацию можно продавать как supervised service.</p>
+
+    <h2>Ограничения для РФ</h2>
+    <p>Здесь нужна не вера, а фактология. Apple Support указывает, что <strong>с 1 апреля 2026</strong> processing payments for purchases in the App Store and other Apple Media Services in Russia is no longer available. Это означает, что новые покупки, включая in-app purchases и renewals, внутри РФ структурно ограничены.</p>
+    <p>Google Play Console Help указывает, что billing system for users in Russia был paused <strong>10 марта 2022</strong>; paid apps, subscriptions и digital goods через Google Play billing для РФ остаются проблемной зоной, free apps доступны.</p>
+    <p><strong>Практический вывод:</strong> если вообще идти в эту историю, делать ставку нужно на внешние рынки и заранее проектировать международный операционный контур для юрлица, банка, налогов и выплат.</p>
+
+    <h2>Финальный вердикт</h2>
+    <p><strong>Исходную версию идеи</strong> брать не стоит. Она слишком зависит от допущений, которые ломаются о store policy, distribution risk и слабую предсказуемость монетизации.</p>
+    <p><strong>Адаптированную версию идеи</strong> брать стоит: как semi-autonomous internal product studio для запуска 1-3 собственных мобильных продуктов с жесткими human gates и фокусом на один сильный продукт, а не на количество релизов.</p>
+
+    <h2>Источники</h2>
+    <ol class="sources">
+      <li><a href="https://developer.apple.com/app-store/review/guidelines">Apple App Review Guidelines</a></li>
+      <li><a href="https://developer.apple.com/app-store-connect/api/">Apple App Store Connect API overview</a></li>
+      <li><a href="https://developer.apple.com/help/app-store-connect/reference/reporting/banking-information">Apple banking information</a></li>
+      <li><a href="https://developer.apple.com/programs/enroll/">Apple Developer Program enrollment and fee</a></li>
+      <li><a href="https://support.apple.com/en-us/126891">Apple billing for purchases in Russia</a></li>
+      <li><a href="https://developers.google.com/android-publisher/api_usage">Google Play Developer API usage instructions</a></li>
+      <li><a href="https://support.google.com/googleplay/android-developer/answer/9898783">Google Play functionality, content and UX</a></li>
+      <li><a href="https://support.google.com/googleplay/android-developer/answer/16070163">Google Play Developer Program Policy</a></li>
+      <li><a href="https://support.google.com/googleplay/android-developer/answer/112622">Google Play service fees</a></li>
+      <li><a href="https://support.google.com/googleplay/android-developer/answer/9875040">Google Play developer account registration payment methods and receipts</a></li>
+      <li><a href="https://support.google.com/googleplay/android-developer/answer/11950272">Google Play billing changes in Russia and Belarus</a></li>
+    </ol>
+  </main>
+</body>
+</html>
