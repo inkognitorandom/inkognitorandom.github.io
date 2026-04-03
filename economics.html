@@ -95,44 +95,44 @@
         <thead>
           <tr>
             <th>Контур сопровождения</th>
-            <th>Что входит</th>
+            <th>Что реально нужно делать</th>
             <th>Оценка / мес</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Workflow и backend orchestration</td>
-            <td>PostgreSQL, очереди, retries, state transitions, cron, артефакты, backup, миграции</td>
+            <td>Поддерживать workflow state, фиксить зависшие задачи, следить за retries и таймаутами, обновлять схемы БД, держать backup, чистить артефакты, чинить broken transitions и восстанавливать пайплайны после сбоев.</td>
             <td>≈ 70 000-180 000 ₽</td>
           </tr>
           <tr>
             <td>LLM и агентный слой</td>
-            <td>Research, scoring, monetization design, dossier generation, refinement, guardrails</td>
+            <td>Поддерживать промпты и шаблоны, снижать стоимость вызовов, чинить деградацию качества ответов, обновлять guardrails, пересобирать цепочки research/scoring/monetization/refinement, отслеживать неудачные агентные сценарии.</td>
             <td>≈ 16 000-156 000 ₽</td>
           </tr>
           <tr>
             <td>CI/CD и release automation</td>
-            <td>Сборки, code signing, runner minutes, cache, release pipelines, артефакты</td>
+            <td>Чинить падающие сборки, обновлять mobile SDK/toolchains, следить за code signing, поддерживать release pipelines, runners, cache, секреты и хранение release-артефактов.</td>
             <td>≈ 20 000-90 000 ₽</td>
           </tr>
           <tr>
             <td>Mobile QA</td>
-            <td>Smoke, regression, device cloud, ручная проверка критических кейсов</td>
+            <td>Поддерживать smoke и regression тесты, прогонять device cloud, ловить platform-specific баги, обновлять тестовые сценарии после изменений и вручную проверять критические пользовательские пути перед релизом.</td>
             <td>≈ 30 000-180 000 ₽</td>
           </tr>
           <tr>
             <td>Store operations support</td>
-            <td>Metadata drift, privacy forms, review feedback, screenshots, update packages</td>
+            <td>Обновлять store metadata, privacy/data safety формы, собирать и править screenshots, разбирать замечания ревью, пересобирать submission packages и сопровождать повторные отправки после rejection.</td>
             <td>≈ 40 000-150 000 ₽</td>
           </tr>
           <tr>
             <td>Analytics и observability</td>
-            <td>Crash reports, event pipeline, dashboards, alerting, метрики монетизации и retention</td>
+            <td>Поддерживать event pipeline, crash reporting, дешборды, алерты, следить за качеством продуктовых событий, проверять retention и monetization метрики, чтобы refinement loop работал не вслепую.</td>
             <td>≈ 20 000-80 000 ₽</td>
           </tr>
           <tr>
             <td>Инфраструктурный резерв</td>
-            <td>Пиковые сборки, хранение, срочные хотфиксы, внеплановые тесты, дублирование сервисов</td>
+            <td>Держать запас на пиковые сборки, экстренные хотфиксы, внеплановые тесты, рост хранения артефактов, временное дублирование сервисов и аварийные операции, когда конвейер начинает нестабильно работать.</td>
             <td>≈ 25 000-120 000 ₽</td>
           </tr>
         </tbody>
