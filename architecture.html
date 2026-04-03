@@ -28,37 +28,36 @@
     </section>
 
     <section class="panel">
-      <h2>Текстовая схема</h2>
-      <div class="callout">
-<pre><code>Intake / Agent UI
-        |
-        v
-Research -> Scoring -> Monetization Designer -> Policy Precheck
-        |                                      |
-        +------------------- approval ---------+
-                           |
-                           v
-                    Product Generator
-                           |
-                           v
-                       Build Service
-                           |
-                           v
-                        QA Service
-                           |
-                           v
-                 Submission Preparation
-                           |
-                           v
-                    Publication Service
-                           |
-                           v
-           Store APIs / Review Status / Release Events
-                           |
-                           v
-              Notifier + Analytics + Refinement Agent
-                           |
-                           +------> Republish loop</code></pre>
+      <h2>Схема конвейера</h2>
+      <div class="diagram">
+        <div class="diagram-col">
+          <div class="diagram-box">Intake / Agent UI</div>
+          <div class="diagram-arrow">↓</div>
+          <div class="diagram-row">
+            <div class="diagram-box small">Research</div>
+            <div class="diagram-box small">Scoring</div>
+            <div class="diagram-box small">Monetization Designer</div>
+            <div class="diagram-box small">Policy Precheck</div>
+          </div>
+          <div class="diagram-merge">approval gate</div>
+          <div class="diagram-arrow">↓</div>
+          <div class="diagram-box">Product Generator</div>
+          <div class="diagram-arrow">↓</div>
+          <div class="diagram-row three">
+            <div class="diagram-box small">Build Service</div>
+            <div class="diagram-box small">QA Service</div>
+            <div class="diagram-box small">Submission Preparation</div>
+          </div>
+          <div class="diagram-arrow">↓</div>
+          <div class="diagram-box accent">Publication Service</div>
+          <div class="diagram-arrow">↓</div>
+          <div class="diagram-row two">
+            <div class="diagram-box small">Store APIs / Review</div>
+            <div class="diagram-box small">Notifier / Analytics</div>
+          </div>
+          <div class="diagram-arrow">↓</div>
+          <div class="diagram-box loop">Refinement Agent / Republish Loop</div>
+        </div>
       </div>
     </section>
 

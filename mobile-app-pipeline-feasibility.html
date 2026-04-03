@@ -259,6 +259,27 @@
     <p><strong>MVP internal studio:</strong> высокая, но реализуемая сложность. Реалистично 8-14 недель до первого технического MVP при сильной команде.</p>
     <p><strong>Полный автономный конвейер:</strong> очень высокая сложность. Реалистично 6-12+ месяцев до системы, которой можно доверять бренд, релизы и деньги.</p>
 
+    <h2>Почему цифры по сценариям отличаются</h2>
+    <p>Цифры по вариантам нельзя читать в отрыве от того, что именно входит в продуктовый контур. Разные сценарии дорожают по разным причинам.</p>
+    <div class="grid">
+      <section class="card">
+        <h3>Только B2B</h3>
+        <p>Дешевле по distribution и медленнее по product depth. Основная нагрузка уходит в intake, delivery, правки и публикацию через клиентские аккаунты.</p>
+      </section>
+      <section class="card">
+        <h3>1-3 собственных продукта</h3>
+        <p>Ниже sales-нагрузка, но выше риск долго жить без выручки. Деньги уходят в product iteration, retention, аналитику и store-driven growth.</p>
+      </section>
+      <section class="card">
+        <h3>Один app-контейнер</h3>
+        <p>Дороже продуктово: нужен сильный core product, модульная логика внутри app и аккуратная UX-архитектура, иначе контейнер станет мешаниной.</p>
+      </section>
+      <section class="card">
+        <h3>Гибридный вариант</h3>
+        <p>Самый дорогой по запуску, потому что включает оба контура: внутренний портфель и клиентские проекты, а также ownership modes, publication modes и refinement loop.</p>
+      </section>
+    </div>
+
     <h2>Накладные расходы</h2>
     <ul>
       <li>Apple Developer Program: 99 USD в год.</li>
@@ -268,6 +289,29 @@
       <li>post-release operations: SDK updates, support, appeals, price experiments, retention work.</li>
     </ul>
     <p>Самая недооцененная статья расходов почти всегда не сборка, а сопровождение после релиза. Именно она ломает мечту о "20 приложениях без людей".</p>
+
+    <h3>Детализация статьи расходов</h3>
+    <div class="grid">
+      <section class="card">
+        <h3>1. Платформенная разработка</h3>
+        <p>Backend orchestration, мобильный шаблон, сборочный контур, state management, интеграции со сторами, notifier и refinement loop.</p>
+      </section>
+      <section class="card">
+        <h3>2. Агентный слой</h3>
+        <p>Research, scoring, monetization design, drafting store-артефактов, change requests и частичная кодогенерация. Это не “одна модель”, а целый набор промптов, правил и очередей.</p>
+      </section>
+      <section class="card">
+        <h3>3. Release и QA</h3>
+        <p>CI/CD, code signing, device testing, smoke/regression, screenshots, сборка release packages и контроль publish-ready статуса.</p>
+      </section>
+      <section class="card">
+        <h3>4. Операционное сопровождение</h3>
+        <p>Policy drift, review feedback, store metadata updates, хотфиксы, обновления SDK, analytics, retention и повторные релизы.</p>
+      </section>
+    </div>
+
+    <h3>Рабочий диапазон по сопровождению</h3>
+    <p>Даже если MVP уже собран, живая платформа требует ежемесячных расходов на orchestration backend, агентные вызовы, CI/CD, mobile QA, observability и store operations support. В практическом режиме это даёт существенный monthly burn, и именно поэтому цифры по гибридному сценарию всегда выше, чем по узкому B2B-only сценарию.</p>
 
     <h2>Монетизация</h2>
     <h3>Подписки</h3>

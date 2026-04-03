@@ -304,6 +304,75 @@ code {
   background: var(--paper-solid);
 }
 
+.diagram {
+  padding: 8px 0;
+}
+
+.diagram-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.diagram-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.diagram-row.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.diagram-row.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 760px;
+}
+
+.diagram-box {
+  width: min(780px, 100%);
+  padding: 16px 18px;
+  text-align: center;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--paper-solid);
+  box-shadow: var(--shadow);
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.diagram-box.small {
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.diagram-box.accent {
+  background: rgba(11, 106, 98, 0.08);
+  border-color: rgba(11, 106, 98, 0.28);
+}
+
+.diagram-box.loop {
+  background: rgba(158, 79, 29, 0.08);
+  border-color: rgba(158, 79, 29, 0.24);
+}
+
+.diagram-arrow,
+.diagram-merge {
+  color: var(--muted);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.diagram-merge {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 .muted {
   color: var(--muted);
 }
@@ -315,7 +384,10 @@ code {
 @media (max-width: 960px) {
   .panel-grid,
   .three-grid,
-  .list-grid {
+  .list-grid,
+  .diagram-row,
+  .diagram-row.three,
+  .diagram-row.two {
     grid-template-columns: 1fr;
   }
 
