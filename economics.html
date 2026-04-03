@@ -85,6 +85,85 @@
     </section>
 
     <section class="panel">
+      <h2>Сноска: техническое сопровождение ансамбля сервисов</h2>
+      <p>
+        Здесь важно не путать “мы один раз собрали MVP” и “мы поддерживаем живую
+        платформу, которая непрерывно публикует, перепубликовывает и дорабатывает приложения”.
+        Основная техническая стоимость после запуска живёт именно здесь.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Контур сопровождения</th>
+            <th>Что входит</th>
+            <th>Оценка / мес</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Workflow и backend orchestration</td>
+            <td>PostgreSQL, очереди, retries, state transitions, cron, артефакты, backup, миграции</td>
+            <td>≈ 70 000-180 000 ₽</td>
+          </tr>
+          <tr>
+            <td>LLM и агентный слой</td>
+            <td>Research, scoring, monetization design, dossier generation, refinement, guardrails</td>
+            <td>≈ 16 000-156 000 ₽</td>
+          </tr>
+          <tr>
+            <td>CI/CD и release automation</td>
+            <td>Сборки, code signing, runner minutes, cache, release pipelines, артефакты</td>
+            <td>≈ 20 000-90 000 ₽</td>
+          </tr>
+          <tr>
+            <td>Mobile QA</td>
+            <td>Smoke, regression, device cloud, ручная проверка критических кейсов</td>
+            <td>≈ 30 000-180 000 ₽</td>
+          </tr>
+          <tr>
+            <td>Store operations support</td>
+            <td>Metadata drift, privacy forms, review feedback, screenshots, update packages</td>
+            <td>≈ 40 000-150 000 ₽</td>
+          </tr>
+          <tr>
+            <td>Analytics и observability</td>
+            <td>Crash reports, event pipeline, dashboards, alerting, метрики монетизации и retention</td>
+            <td>≈ 20 000-80 000 ₽</td>
+          </tr>
+          <tr>
+            <td>Инфраструктурный резерв</td>
+            <td>Пиковые сборки, хранение, срочные хотфиксы, внеплановые тесты, дублирование сервисов</td>
+            <td>≈ 25 000-120 000 ₽</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="spacer-top">
+        В сумме только “техническое дыхание платформы”, даже без команды как таковой,
+        даёт рабочий диапазон порядка <strong>220 000-950 000 ₽ в месяц</strong>.
+        Если сюда добавить людей, которые реально сопровождают систему, общая
+        операционка и выходит к диапазонам, указанным выше.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Сколько это сложно именно как ансамбль сервисов</h2>
+      <div class="list-grid">
+        <article class="callout">
+          <h3>Технически</h3>
+          <p>Реализуемо. Это не научная фантастика, а нормальная platform engineering задача с агентным слоем и мобильным delivery контуром.</p>
+        </article>
+        <article class="callout">
+          <h3>Операционно</h3>
+          <p>Сложность высокая. Самая дорогая часть не первый билд, а поддержание стабильного цикла: submit, review, fix, republish, metric-driven refinement.</p>
+        </article>
+        <article class="callout">
+          <h3>Для MVP</h3>
+          <p>Реалистично при жёстком scope. Но MVP должен быть не “всё умеет”, а “один устойчивый цикл от intake до перепубликации”.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
       <h2>Сценарии по запуску</h2>
       <table>
         <thead>
