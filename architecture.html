@@ -194,12 +194,12 @@
         <tbody>
           <tr>
             <td>1. Intake Agent UI</td>
-            <td>Backend API / Workflow Engine</td>
+            <td>Backend API / Оркестратор процессов</td>
             <td>HTTP</td>
             <td>Команды создания проекта, подтверждения идеи, запроса доработки и запуска публикации</td>
           </tr>
           <tr>
-            <td>Workflow Engine</td>
+            <td>Оркестратор процессов</td>
             <td>2-5. Decision chain</td>
             <td>Queue jobs или workflow activities</td>
             <td>Идентификатор проекта, гипотеза, задачи на сбор доказательств и задачи на оценку</td>
@@ -223,7 +223,7 @@
             <td>Гипотеза монетизации, риск для удержания и рыночные допущения</td>
           </tr>
           <tr>
-            <td>Workflow Engine</td>
+            <td>Оркестратор процессов</td>
             <td>6. Product Generator</td>
             <td>Queue / workflow activity</td>
             <td>Подтверждённая спецификация, продуктовый документ, модель монетизации и режим владения</td>
@@ -353,6 +353,38 @@
     </section>
 
     <section class="panel">
+      <h2>Что такое оркестратор процессов</h2>
+      <p>
+        Оркестратор процессов это не агент и не модель. Это сервис, который
+        хранит состояние проекта и знает, какой следующий шаг конвейера можно
+        запускать. Он отвечает за переходы между статусами, ожидание approve,
+        retries, таймауты и восстановление длинных сценариев после ошибок.
+      </p>
+      <div class="list-grid">
+        <article class="callout">
+          <h3>Что он делает</h3>
+          <p>Запускает шаги по порядку, ждёт завершения jobs, открывает human gate, не даёт pipeline перескакивать через обязательные проверки и сохраняет историю состояния проекта.</p>
+        </article>
+        <article class="callout">
+          <h3>Чем не является</h3>
+          <p>Не пишет тексты, не принимает бизнес-решения и не заменяет агентный слой. Это диспетчер процесса, а не генератор.</p>
+        </article>
+        <article class="callout">
+          <h3>Как реализовать на MVP</h3>
+          <p>Лучший вариант: Temporal или аналогичный workflow runtime. Если хотите стартовать проще, можно собрать orchestration поверх PostgreSQL + queue + явной state machine в backend.</p>
+        </article>
+      </div>
+      <p class="spacer-top">
+        Практически: у каждого проекта должен быть статус вроде
+        <code>idea_intake</code>, <code>research_complete</code>,
+        <code>build_allowed</code>, <code>submission_ready</code>,
+        <code>published</code>, <code>needs_refinement</code>. Именно оркестратор
+        процессов решает, когда и при каких условиях проект может перейти из
+        одного статуса в другой.
+      </p>
+    </section>
+
+    <section class="panel">
       <h2>Что здесь агент, а что обычный сервис</h2>
       <table>
         <thead>
@@ -368,7 +400,7 @@
             <td>1. Intake Agent UI</td>
             <td>Агентный интерфейс + тонкий backend</td>
             <td>HTTP service + bot webhook</td>
-            <td>HTTP в orchestration API</td>
+            <td>HTTP в API оркестратора процессов</td>
           </tr>
           <tr>
             <td>2. Research Service</td>
@@ -540,7 +572,7 @@
       </table>
       <p class="spacer-top">
         Практический вывод: <strong>для MVP не нужен zoo из протоколов</strong>.
-        Достаточно связки <code>HTTP + workflow engine + queue + scheduler</code>.
+        Достаточно связки <code>HTTP + оркестратор процессов + queue + scheduler</code>.
         gRPC имеет смысл только если система вырастет в большой внутренний platform mesh.
       </p>
     </section>
@@ -585,7 +617,7 @@
       </div>
       <p class="spacer-top">
         Иными словами: <strong>OpenClaw может быть optional outer shell, но не должен быть центральной платформой</strong>.
-        Центральной платформой должен быть ваш backend orchestration слой. Это реалистичнее, безопаснее и легче сопровождать.
+        Центральной платформой должен быть ваш backend-слой с оркестратором процессов. Это реалистичнее, безопаснее и легче сопровождать.
       </p>
     </section>
   </div>
