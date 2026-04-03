@@ -21,9 +21,10 @@
       <p class="eyebrow">Архитектура v2</p>
       <h1>Управляемый конвейер от идеи до перепубликации</h1>
       <p class="lede">
-        Публикация остаётся автоматизированной, но не хаотичной. Конвейер
-        работает как жизненный цикл продукта: intake, ресерч, скоринг, сборка,
-        QA, подготовка к стору, сабмит, review, метрики, refinement и повторный релиз.
+        Ниже приведена единая версия архитектуры: те же модули, те же названия
+        и та же нумерация используются в схеме, в списке сервисов и в таблицах
+        взаимодействия. Внешние сторы показаны как внешняя система и в счёт
+        модулей платформы не входят.
       </p>
     </section>
 
@@ -31,97 +32,152 @@
       <h2>Схема конвейера</h2>
       <div class="diagram">
         <div class="diagram-stage">
-          <div class="diagram-stage-title">1. Intake</div>
-          <div class="diagram-box stage-intake">Intake / Agent UI</div>
+          <div class="diagram-stage-title">Этап 1. Вход</div>
+          <div class="diagram-box stage-intake">1. Intake Agent UI</div>
         </div>
 
         <div class="diagram-link-wrap">
           <div class="diagram-link">↓</div>
-          <div class="diagram-link-label">HTTP API + command creation</div>
+          <div class="diagram-link-label">HTTP API + команды</div>
         </div>
 
         <div class="diagram-stage">
-          <div class="diagram-stage-title">2. Research and Decision</div>
+          <div class="diagram-stage-title">Этап 2. Исследование и решение</div>
           <div class="diagram-row four">
-            <div class="diagram-box stage-research">Research</div>
-            <div class="diagram-box stage-research">Scoring</div>
-            <div class="diagram-box stage-money">Monetization Designer</div>
-            <div class="diagram-box stage-policy">Policy Precheck</div>
+            <div class="diagram-box stage-research">2. Research Service</div>
+            <div class="diagram-box stage-research">3. Scoring Service</div>
+            <div class="diagram-box stage-money">4. Monetization Designer</div>
+            <div class="diagram-box stage-policy">5. Policy Precheck</div>
+          </div>
+          <div class="diagram-inline-flow">
+            <span>2</span>
+            <span class="diagram-inline-arrow">→</span>
+            <span>3</span>
+            <span class="diagram-inline-arrow">→</span>
+            <span>4</span>
+            <span class="diagram-inline-arrow">→</span>
+            <span>5</span>
           </div>
           <div class="diagram-caption">
-            Эти четыре модуля работают как decision chain: сначала собирают evidence,
-            потом оценивают силу идеи, проверяют денежную модель и только после этого
-            пропускают идею дальше.
+            Это последовательная decision chain: ресерч собирает evidence,
+            scoring считает силу идеи, monetization designer формирует денежную
+            гипотезу, policy precheck снимает store-risk.
           </div>
         </div>
 
         <div class="diagram-link-wrap">
           <div class="diagram-link">↓</div>
-          <div class="diagram-link-label">workflow signal + persisted state</div>
-        </div>
-        <div class="diagram-gate">Approval Gate / Build Permission</div>
-        <div class="diagram-link-wrap">
-          <div class="diagram-link">↓</div>
-          <div class="diagram-link-label">approved command -> generator job</div>
+          <div class="diagram-link-label">workflow state + approval</div>
         </div>
 
-        <div class="diagram-stage">
-          <div class="diagram-stage-title">3. Product Generation</div>
-          <div class="diagram-box stage-product">Product Generator</div>
-        </div>
+        <div class="diagram-gate">Gate: Build Permission</div>
 
         <div class="diagram-link-wrap">
           <div class="diagram-link">↓</div>
-          <div class="diagram-link-label">repo update + build workflow</div>
+          <div class="diagram-link-label">approved job</div>
         </div>
 
         <div class="diagram-stage">
-          <div class="diagram-stage-title">4. Delivery Pipeline</div>
+          <div class="diagram-stage-title">Этап 3. Генерация продукта</div>
+          <div class="diagram-box stage-product">6. Product Generator</div>
+        </div>
+
+        <div class="diagram-link-wrap">
+          <div class="diagram-link">↓</div>
+          <div class="diagram-link-label">git / CI trigger</div>
+        </div>
+
+        <div class="diagram-stage">
+          <div class="diagram-stage-title">Этап 4. Delivery pipeline</div>
           <div class="diagram-row three">
-            <div class="diagram-box stage-delivery">Build Service</div>
-            <div class="diagram-box stage-delivery">QA Service</div>
-            <div class="diagram-box stage-delivery">Submission Preparation</div>
+            <div class="diagram-box stage-delivery">7. Build Service</div>
+            <div class="diagram-box stage-delivery">8. QA Service</div>
+            <div class="diagram-box stage-delivery">9. Submission Preparation</div>
+          </div>
+          <div class="diagram-inline-flow">
+            <span>7</span>
+            <span class="diagram-inline-arrow">→</span>
+            <span>8</span>
+            <span class="diagram-inline-arrow">→</span>
+            <span>9</span>
           </div>
           <div class="diagram-caption">
-            Это не параллельные независимые модули, а производственная цепочка:
-            build собирает release-кандидат, QA его валидирует, submission preparation
-            оформляет publish-ready пакет для стора.
+            Это производственная цепочка, а не три параллельных блока:
+            build создаёт release-кандидат, QA его валидирует, submission preparation
+            собирает publish-ready пакет.
           </div>
         </div>
 
         <div class="diagram-link-wrap">
           <div class="diagram-link">↓</div>
-          <div class="diagram-link-label">submission package + publish command</div>
+          <div class="diagram-link-label">publish command</div>
         </div>
 
         <div class="diagram-stage">
-          <div class="diagram-stage-title">5. Store Release</div>
-          <div class="diagram-box stage-publication">Publication Service</div>
-          <div class="diagram-row two">
-            <div class="diagram-box stage-external">Store APIs / Review</div>
-            <div class="diagram-box stage-observe">Notifier / Analytics</div>
+          <div class="diagram-stage-title">Этап 5. Публикация и наблюдение</div>
+          <div class="diagram-publication-layout">
+            <div class="diagram-publication-center">
+              <div class="diagram-box stage-publication">10. Publication Service</div>
+            </div>
+            <div class="diagram-publication-row">
+              <div class="diagram-side">
+                <div class="diagram-side-arrow">10 → внешний контур</div>
+                <div class="diagram-box stage-external">Внешняя система: Store APIs / Review</div>
+              </div>
+              <div class="diagram-side">
+                <div class="diagram-side-arrow">10 → 11</div>
+                <div class="diagram-box stage-observe">11. Notifier &amp; Analytics</div>
+              </div>
+            </div>
           </div>
           <div class="diagram-caption">
-            Publication Service общается со сторами и получает статусы review,
-            а notifier и analytics получают события о публикации, отклонениях,
-            метриках продукта и сигналах на доработку.
+            Publication Service публикует и отслеживает review через внешние APIs стора.
+            Notifier &amp; Analytics получает release-события, rejection-сигналы и продуктовые метрики.
           </div>
         </div>
 
         <div class="diagram-link-wrap">
           <div class="diagram-link">↓</div>
-          <div class="diagram-link-label">review events + analytics signals</div>
+          <div class="diagram-link-label">alerts + feedback + metrics</div>
         </div>
 
         <div class="diagram-stage">
-          <div class="diagram-stage-title">6. Post-Release Loop</div>
-          <div class="diagram-box stage-loop">Refinement Agent / Republish Loop</div>
+          <div class="diagram-stage-title">Этап 6. Post-release цикл</div>
+          <div class="diagram-box stage-loop">12. Refinement Agent</div>
+          <div class="diagram-inline-flow">
+            <span>11</span>
+            <span class="diagram-inline-arrow">→</span>
+            <span>12</span>
+            <span class="diagram-inline-arrow">→</span>
+            <span>6</span>
+            <span class="diagram-inline-arrow">→</span>
+            <span>7</span>
+          </div>
           <div class="diagram-caption">
-            Любая значимая правка возвращает продукт обратно в delivery pipeline:
-            build, QA, submission package и повторная публикация.
+            После релиза любые значимые замечания, метрики или запросы на изменения
+            уходят в refinement, а затем цикл снова проходит через генерацию, build,
+            QA, submission и публикацию.
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="panel three-grid">
+      <article class="metric">
+        <div class="metric-number">2</div>
+        <p><strong>Основных контура</strong></p>
+        <p>Собственный портфель и клиентские проекты работают на одном движке.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-number">12</div>
+        <p><strong>Ключевых модулей</strong></p>
+        <p>Нумерация 1-12 едина для схемы, модулей и таблиц.</p>
+      </article>
+      <article class="metric">
+        <div class="metric-number">3</div>
+        <p><strong>Режима публикации</strong></p>
+        <p>Авто, approval-based и assisted publish через клиентский аккаунт.</p>
+      </article>
     </section>
 
     <section class="panel">
@@ -137,92 +193,92 @@
         </thead>
         <tbody>
           <tr>
-            <td>Intake / Agent UI</td>
+            <td>1. Intake Agent UI</td>
             <td>Backend API / Workflow Engine</td>
             <td>HTTP</td>
             <td>Команды создания проекта, подтверждения идеи, запроса доработки и запуска публикации</td>
           </tr>
           <tr>
             <td>Workflow Engine</td>
-            <td>Research / Scoring / Monetization / Policy</td>
-            <td>Queue jobs или activities</td>
+            <td>2-5. Decision chain</td>
+            <td>Queue jobs или workflow activities</td>
             <td>Идентификатор проекта, гипотеза, задачи на сбор доказательств и задачи на оценку</td>
           </tr>
           <tr>
-            <td>Research</td>
-            <td>Scoring</td>
+            <td>2. Research Service</td>
+            <td>3. Scoring Service</td>
             <td>DB record + event</td>
             <td>Пакет доказательств, карта конкурентов и сводка по трендам</td>
           </tr>
           <tr>
-            <td>Scoring</td>
-            <td>Monetization Designer</td>
+            <td>3. Scoring Service</td>
+            <td>4. Monetization Designer</td>
             <td>DB record + event</td>
             <td>Контекст решения, сегмент и сигналы жизнеспособности идеи</td>
           </tr>
           <tr>
-            <td>Monetization Designer</td>
-            <td>Policy Precheck</td>
+            <td>4. Monetization Designer</td>
+            <td>5. Policy Precheck</td>
             <td>DB record + event</td>
             <td>Гипотеза монетизации, риск для удержания и рыночные допущения</td>
           </tr>
           <tr>
             <td>Workflow Engine</td>
-            <td>Product Generator</td>
+            <td>6. Product Generator</td>
             <td>Queue / workflow activity</td>
             <td>Подтверждённая спецификация, продуктовый документ, модель монетизации и режим владения</td>
           </tr>
           <tr>
-            <td>Product Generator</td>
-            <td>Repo / Build Service</td>
+            <td>6. Product Generator</td>
+            <td>7. Build Service</td>
             <td>Git push / CI trigger / webhook</td>
             <td>Изменения в коде, конфигурация, ассеты и цель релиза</td>
           </tr>
           <tr>
-            <td>Build Service</td>
-            <td>QA Service</td>
+            <td>7. Build Service</td>
+            <td>8. QA Service</td>
             <td>Artifact storage + event</td>
             <td>Артефакты сборки, манифест тестирования и идентификатор release-кандидата</td>
           </tr>
           <tr>
-            <td>QA Service</td>
-            <td>Submission Preparation</td>
+            <td>8. QA Service</td>
+            <td>9. Submission Preparation</td>
             <td>DB status + event</td>
             <td>Вердикт по тестам, отчёт о проверках и заметки по комплаенсу</td>
           </tr>
           <tr>
-            <td>Submission Preparation</td>
-            <td>Publication Service</td>
+            <td>9. Submission Preparation</td>
+            <td>10. Publication Service</td>
             <td>HTTP internal API / queue</td>
             <td>Метаданные, скриншоты, заметки для ревью, privacy-формы и идентификатор досье</td>
           </tr>
           <tr>
-            <td>Publication Service</td>
-            <td>Store APIs</td>
+            <td>10. Publication Service</td>
+            <td>Внешняя система: Store APIs</td>
             <td>External HTTPS APIs</td>
             <td>Пакеты публикации, обновления и команды на rollout</td>
           </tr>
           <tr>
-            <td>Store APIs / Review</td>
-            <td>Publication Service</td>
-            <td>Polling scheduler + webhook where available</td>
+            <td>Внешняя система: Store APIs / Review</td>
+            <td>10. Publication Service</td>
+            <td>Polling scheduler + webhook где доступно</td>
             <td>Изменения статусов, причины отклонений и итоги ревью</td>
           </tr>
           <tr>
-            <td>Publication / Analytics</td>
-            <td>Notifier</td>
+            <td>10. Publication Service</td>
+            <td>11. Notifier &amp; Analytics</td>
             <td>Event bus</td>
             <td>События отправки, отклонения, подтверждения и алерты по метрикам</td>
           </tr>
           <tr>
-            <td>Notifier / Client feedback</td>
-            <td>Refinement Agent</td>
+            <td>11. Notifier &amp; Analytics</td>
+            <td>12. Refinement Agent</td>
             <td>HTTP command + queue</td>
             <td>Запрос на изменение, сводка по проблеме и описание доработки</td>
           </tr>
           <tr>
-            <td>Refinement Agent</td>
-            <td>Product Generator / Build</td>
+            <td>12. Refinement Agent</td>
+            <td>6. Product Generator / 7. Build Service</td>
             <td>PR creation + workflow restart</td>
             <td>Патч, обновлённый продуктовый документ, набор изменений и команда на перепубликацию</td>
           </tr>
@@ -230,74 +286,66 @@
       </table>
     </section>
 
-    <section class="panel three-grid">
-      <article class="metric">
-        <div class="metric-number">2</div>
-        <p><strong>Основных контура</strong></p>
-        <p>Собственный портфель и клиентские проекты работают на одном движке.</p>
-      </article>
-      <article class="metric">
-        <div class="metric-number">10</div>
-        <p><strong>Ключевых модулей</strong></p>
-        <p>От исследования идей до notification и refinement loop.</p>
-      </article>
-      <article class="metric">
-        <div class="metric-number">3</div>
-        <p><strong>Режима публикации</strong></p>
-        <p>Авто, approval-based и assisted publish через клиентский аккаунт.</p>
-      </article>
-    </section>
-
     <section class="panel">
       <h2>Модули платформы</h2>
       <div class="list-grid">
         <article>
-          <h3>1. Intake Agent</h3>
+          <h3>1. Intake Agent UI</h3>
           <p>Принимает идею, запрос клиента или сигнал из ресерча. Формирует карточку проекта, фиксирует цели, ограничения, ownership mode и денежную модель.</p>
           <p><strong>Реализация:</strong> Telegram-бот или web-console поверх backend API. Сам агент не должен хранить истинное состояние проекта, он лишь пишет события в system of record.</p>
         </article>
         <article>
-          <h3>2. Research & Scoring</h3>
-          <p>Ищет тренды, жалобы пользователей, keyword gaps, конкурентный ландшафт и сразу пишет контраргумент, почему идея может не взлететь.</p>
+          <h3>2. Research Service</h3>
+          <p>Ищет тренды, жалобы пользователей, keyword gaps, конкурентный ландшафт и собирает evidence pack для оценки идеи.</p>
           <p><strong>Реализация:</strong> отдельные worker-задачи с накоплением evidence в PostgreSQL и object storage. Лучше event-driven batch/async слой, а не бесконечно живой autonomous agent.</p>
         </article>
         <article>
-          <h3>3. Monetization Designer</h3>
-          <p>До сборки продукта формирует monetization thesis: какой рынок, какая денежная модель, где paywall или ads, что ломает retention и какие метрики станут критичными.</p>
-          <p><strong>Реализация:</strong> LLM-пайплайн на шаблонах плюс rule engine. Здесь нужна не “творческая магия”, а детерминированный checklist и scorecard, иначе модуль станет генератором красивых самообманов.</p>
+          <h3>3. Scoring Service</h3>
+          <p>Считает итоговую силу идеи, агрегирует evidence, оценивает органику, реализуемость и пригодность идеи к следующему этапу.</p>
+          <p><strong>Реализация:</strong> кодовый сервис или workflow activity с rule-based scorecard. Это должен быть детерминированный слой, а не свободная генерация.</p>
         </article>
         <article>
-          <h3>4. Product Generator</h3>
+          <h3>4. Monetization Designer</h3>
+          <p>До сборки продукта формирует monetization thesis: рынок, денежная модель, placement paywall/ads, риск для retention и ключевые метрики.</p>
+          <p><strong>Реализация:</strong> LLM-пайплайн на шаблонах плюс rule engine. Здесь нужна не “творческая магия”, а детерминированный checklist и scorecard.</p>
+        </article>
+        <article>
+          <h3>5. Policy Precheck</h3>
+          <p>Проверяет идею и пакет к публикации на признаки template app, repetitive content, слабой функциональности и другие policy-sensitive зоны.</p>
+          <p><strong>Реализация:</strong> кодовый сервис с policy rules и LLM-assist для drafting объяснений. Вердикт должен опираться на checklist, а не только на модель.</p>
+        </article>
+        <article>
+          <h3>6. Product Generator</h3>
           <p>Делает PRD, экранную модель, backlog, текст для стора, стартовый дизайн и scaffolding кода.</p>
           <p><strong>Реализация:</strong> шаблонная mobile-platform codebase плюс генерация конфигурации, модулей и контента. Это должен быть generator поверх общего ядра, а не хаотичное написание каждого приложения с нуля.</p>
         </article>
         <article>
-          <h3>5. Build Service</h3>
+          <h3>7. Build Service</h3>
           <p>Собирает приложение, package identifiers, signing, release-кандидаты, связку с репозиторием и CI.</p>
           <p><strong>Реализация:</strong> GitHub Actions или self-hosted runners, секреты в vault, signing из изолированного контура. Это обычный release engineering, а не агентная задача.</p>
         </article>
         <article>
-          <h3>6. QA Service</h3>
-          <p>Прогоняет unit, integration, smoke и policy-precheck. Проверяет не только баги, но и признаки thin app / repetitive content.</p>
-          <p><strong>Реализация:</strong> автоматические тесты плюс rule-based policy linting. LLM можно использовать для drafting замечаний, но не как единственный источник verdict.</p>
+          <h3>8. QA Service</h3>
+          <p>Прогоняет unit, integration, smoke и policy-sensitive проверки. Проверяет не только баги, но и признаки thin app / repetitive content.</p>
+          <p><strong>Реализация:</strong> автоматические тесты плюс rule-based linting. LLM можно использовать для drafting замечаний, но не как единственный источник verdict.</p>
         </article>
         <article>
-          <h3>7. Submission Preparation</h3>
+          <h3>9. Submission Preparation</h3>
           <p>Готовит screenshots, privacy summary, metadata, review notes, changelog и PDF-досье по кандидату.</p>
           <p><strong>Реализация:</strong> deterministic templates плюс генерация контента. Здесь же должен собираться единый dossier: что за приложение, зачем оно, как монетизируется, почему publish-ready.</p>
         </article>
         <article>
-          <h3>8. Publication Service</h3>
+          <h3>10. Publication Service</h3>
           <p>Работает с App Store Connect и Google Play API, умеет создавать submissions, публиковать обновления и соблюдать режимы gate-публикации.</p>
           <p><strong>Реализация:</strong> отдельный backend service с idempotent-командами, статусами и retry logic. Это самый чувствительный модуль, поэтому он должен жить отдельно от болтливого agent runtime.</p>
         </article>
         <article>
-          <h3>9. Notifier</h3>
-          <p>Шлёт события в Telegram, email и dashboard: submission-ready, submitted, rejected, approved, needs-refinement, below-threshold.</p>
+          <h3>11. Notifier &amp; Analytics</h3>
+          <p>Шлёт события в Telegram, email и dashboard, а также собирает product/release сигналы: submission-ready, submitted, rejected, approved, needs-refinement, below-threshold.</p>
           <p><strong>Реализация:</strong> event subscribers от orchestration слоя. Это дёшево и очень важно: без нормального уведомления конвейер становится чёрным ящиком.</p>
         </article>
         <article>
-          <h3>10. Refinement Agent</h3>
+          <h3>12. Refinement Agent</h3>
           <p>Принимает замечания от вас или клиентов, формализует change request, дорабатывает продукт, повторно тестирует и перепубликовывает.</p>
           <p><strong>Реализация:</strong> агентный слой, который не пишет напрямую в прод, а работает через change requests, pull requests и повторный пайплайн сборки.</p>
         </article>
@@ -317,73 +365,73 @@
         </thead>
         <tbody>
           <tr>
-            <td>Intake / Agent UI</td>
+            <td>1. Intake Agent UI</td>
             <td>Агентный интерфейс + тонкий backend</td>
             <td>HTTP service + bot webhook</td>
             <td>HTTP в orchestration API</td>
           </tr>
           <tr>
-            <td>Research</td>
+            <td>2. Research Service</td>
             <td>Агентный worker</td>
             <td>Асинхронные jobs по queue/scheduler</td>
             <td>Queue + DB</td>
           </tr>
           <tr>
-            <td>Scoring</td>
+            <td>3. Scoring Service</td>
             <td>Кодовый сервис</td>
             <td>Worker или workflow activity</td>
             <td>DB + event</td>
           </tr>
           <tr>
-            <td>Monetization Designer</td>
+            <td>4. Monetization Designer</td>
             <td>Гибрид: агент + rule engine</td>
             <td>Асинхронный worker</td>
             <td>Queue + DB</td>
           </tr>
           <tr>
-            <td>Policy Precheck</td>
+            <td>5. Policy Precheck</td>
             <td>Кодовый сервис с LLM-assist</td>
             <td>Workflow activity</td>
             <td>DB + HTTP internal</td>
           </tr>
           <tr>
-            <td>Product Generator</td>
+            <td>6. Product Generator</td>
             <td>Гибрид</td>
             <td>Worker + repo automation</td>
             <td>Queue + git/CI webhook</td>
           </tr>
           <tr>
-            <td>Build Service</td>
+            <td>7. Build Service</td>
             <td>Обычный кодовый сервис</td>
             <td>CI runners</td>
             <td>Webhook + artifact storage</td>
           </tr>
           <tr>
-            <td>QA Service</td>
+            <td>8. QA Service</td>
             <td>Обычный кодовый сервис</td>
             <td>CI jobs + scheduled checks</td>
             <td>Artifacts + DB + events</td>
           </tr>
           <tr>
-            <td>Submission Preparation</td>
+            <td>9. Submission Preparation</td>
             <td>Кодовый сервис с генерацией</td>
             <td>Worker</td>
             <td>DB + object storage + internal HTTP</td>
           </tr>
           <tr>
-            <td>Publication Service</td>
+            <td>10. Publication Service</td>
             <td>Критический кодовый сервис</td>
             <td>Always-on API + scheduled polling</td>
             <td>HTTPS APIs + DB + event bus</td>
           </tr>
           <tr>
-            <td>Notifier</td>
+            <td>11. Notifier &amp; Analytics</td>
             <td>Обычный subscriber-service</td>
             <td>Event consumers + bot webhook</td>
             <td>Event bus + Telegram API + email API</td>
           </tr>
           <tr>
-            <td>Refinement Agent</td>
+            <td>12. Refinement Agent</td>
             <td>Агентный worker</td>
             <td>Queue-triggered + human feedback</td>
             <td>Queue + git PR + workflow restart</td>
@@ -537,177 +585,8 @@
       </div>
       <p class="spacer-top">
         Иными словами: <strong>OpenClaw может быть optional outer shell, но не должен быть центральной платформой</strong>.
-        Центральной платформой должен быть ваш backend orchestration слой. Это реалистичнее,
-        безопаснее и легче сопровождать.
+        Центральной платформой должен быть ваш backend orchestration слой. Это реалистичнее, безопаснее и легче сопровождать.
       </p>
-    </section>
-
-    <section class="panel">
-      <h2>Реалистичность</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Часть системы</th>
-            <th>Реалистичность</th>
-            <th>Комментарий</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Research + scoring</td>
-            <td>Высокая</td>
-            <td>Обычный LLM-assisted intelligence pipeline</td>
-          </tr>
-          <tr>
-            <td>Monetization gating до build</td>
-            <td>Высокая</td>
-            <td>Главное сделать rule-based scorecard, а не свободную болтовню модели</td>
-          </tr>
-          <tr>
-            <td>Code generation поверх общей mobile platform</td>
-            <td>Средне-высокая</td>
-            <td>Реально, если есть единое ядро и ограниченный product grammar</td>
-          </tr>
-          <tr>
-            <td>Автоматизированная публикация</td>
-            <td>Средняя</td>
-            <td>Технически реально, операционно чувствительно</td>
-          </tr>
-          <tr>
-            <td>Автоматическая перепубликация после правок</td>
-            <td>Средняя</td>
-            <td>Реально при жёсткой change-management модели</td>
-          </tr>
-          <tr>
-            <td>Полностью автономный “умный издатель” без гейтов</td>
-            <td>Низкая</td>
-            <td>Именно этот кусок и не нужен. Нужен управляемый, а не магический pipeline</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="panel">
-      <h2>Build permission</h2>
-      <p>
-        Идея не должна переходить в сборку, пока не сформированы четыре вещи:
-        <strong>research thesis</strong>, <strong>monetization thesis</strong>,
-        <strong>policy precheck</strong> и <strong>kill criteria</strong>.
-        Конвейер не должен строить приложение, если он не понимает, как именно
-        этот продукт потенциально зарабатывает и почему эта модель монетизации
-        не разрушит retention.
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Обязательное поле</th>
-            <th>Что фиксируем до build</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Problem statement</td>
-            <td>Какую боль решаем и для кого</td>
-          </tr>
-          <tr>
-            <td>Distribution thesis</td>
-            <td>Почему тема имеет шанс на органику или discoverability</td>
-          </tr>
-          <tr>
-            <td>Monetization thesis</td>
-            <td>Подписка, реклама, IAP, hybrid или внешний денежный контур</td>
-          </tr>
-          <tr>
-            <td>Policy risk</td>
-            <td>Почему это не шаблонный мусор и не тонкая обёртка</td>
-          </tr>
-          <tr>
-            <td>Kill criteria</td>
-            <td>На каких метриках идея считается слабой и уходит в архив</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="panel">
-      <h2>Ownership modes</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Режим</th>
-            <th>Для кого</th>
-            <th>Чей store account</th>
-            <th>Кто получает деньги</th>
-            <th>Как публикуем</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>owned_by_us</code></td>
-            <td>Собственные продукты</td>
-            <td>Ваш</td>
-            <td>Вы</td>
-            <td>Auto-publish или approval-based</td>
-          </tr>
-          <tr>
-            <td><code>owned_by_client</code></td>
-            <td>Клиентские приложения</td>
-            <td>Клиента</td>
-            <td>Клиент</td>
-            <td>Assisted/automatic publish через клиентские доступы</td>
-          </tr>
-          <tr>
-            <td><code>managed_transitional</code></td>
-            <td>Исключение</td>
-            <td>Договорной</td>
-            <td>По договору</td>
-            <td>Только как временный режим</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="panel">
-      <h2>Статусы pipeline</h2>
-      <div class="badge-row">
-        <span class="badge badge-good">idea-intake</span>
-        <span class="badge badge-good">research-complete</span>
-        <span class="badge badge-good">monetization-designed</span>
-        <span class="badge badge-good">idea-approved</span>
-        <span class="badge badge-good">in-build</span>
-        <span class="badge badge-good">qa-passed</span>
-        <span class="badge badge-good">submission-ready</span>
-        <span class="badge badge-good">submitted</span>
-        <span class="badge badge-warn">rejected</span>
-        <span class="badge badge-good">approved</span>
-        <span class="badge badge-good">published</span>
-        <span class="badge badge-good">needs-refinement</span>
-        <span class="badge badge-good">republished</span>
-      </div>
-      <p>
-        Ключевой принцип: публикация это не финальная кнопка, а один из статусов
-        жизненного цикла. После релиза платформа собирает сигналы и может сама
-        инициировать refinement-цикл, если retention, conversion или review feedback
-        выходят за допустимые границы.
-      </p>
-    </section>
-
-    <section class="panel">
-      <h2>Три режима публикации</h2>
-      <div class="list-grid">
-        <article class="callout">
-          <h3>Auto-Publish Internal</h3>
-          <p>Для ваших приложений. Сабмит уходит автоматически после прохождения внутренних гейтов и policy scoring.</p>
-        </article>
-        <article class="callout">
-          <h3>Approval-Based Publish</h3>
-          <p>Для новых вертикалей, спорных кейсов и крупных обновлений. Notifier присылает карточку, после approve идёт submission.</p>
-        </article>
-        <article class="callout">
-          <h3>Client-Assisted Publish</h3>
-          <p>Для внешних клиентов. Публикация автоматизирована, но в store account клиента, с фиксированным audit trail.</p>
-        </article>
-      </div>
     </section>
   </div>
 </body>

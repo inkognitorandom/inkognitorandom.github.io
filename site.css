@@ -350,6 +350,41 @@ code {
   max-width: 760px;
 }
 
+.diagram-publication-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.diagram-publication-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.diagram-publication-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.diagram-side {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.diagram-side-arrow {
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-align: center;
+}
+
 .diagram-box {
   width: min(840px, 100%);
   padding: 16px 18px;
@@ -455,6 +490,22 @@ code {
   line-height: 1.5;
 }
 
+.diagram-inline-flow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.diagram-inline-arrow {
+  color: var(--accent-2);
+  font-size: 16px;
+}
+
 .muted {
   color: var(--muted);
 }
@@ -469,7 +520,8 @@ code {
   .list-grid,
   .diagram-row,
   .diagram-row.three,
-  .diagram-row.two {
+  .diagram-row.two,
+  .diagram-publication-row {
     grid-template-columns: 1fr;
   }
 
